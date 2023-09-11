@@ -55,7 +55,6 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Users>, response: Response<Users>) {
                 handleLoginResponse(response)
             }
-
             override fun onFailure(call: Call<Users>, t: Throwable) {
                 val toast = Toast(applicationContext)
                 toast.setText("請求失敗：" + t.message)

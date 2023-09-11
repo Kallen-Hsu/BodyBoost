@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val fragment = SettingFragment()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragmentContainer, fragment)
+//            .commit()
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnItemSelectedListener{ menuItem ->
             when(menuItem.itemId){

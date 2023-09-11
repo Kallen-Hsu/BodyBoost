@@ -1,7 +1,7 @@
 package com.example.bodyboost.Model
 
 data class Profile(
-    val id: String?,
+    val id: Number,
     val name: String,
     val gender: Int,
     val birthday: String,

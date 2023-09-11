@@ -1,10 +1,12 @@
 package com.example.bodyboost
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bodyboost.Manager.SignInManager
@@ -31,7 +33,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val listItems = listOf("滷肉飯 200 kcal", "珍珠奶茶 200 kcal", "珍珠奶茶 200 kcal", "珍珠奶茶 200 kcal")
 
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
+        val background = view.findViewById<LinearLayout>(R.id.background)
+
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            // 夜間模式
+            background.setBackgroundResource(R.drawable.background_dark)
+        } else {
+            // 日間模式
+            background.setBackgroundResource(R.drawable.background)
+        }
         signInManager = SignInManager(requireContext())
         check_in_btn = view.findViewById<Button>(R.id.daily_signup)
         check_in_btn.setOnClickListener {
@@ -51,7 +63,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             t.printStackTrace()
                         }
                     })
-                    // 执行签到
+                    // 執行簽到
                     signInManager.performSignIn()
                 }
             } else {

@@ -79,7 +79,6 @@ class VerificationCode : AppCompatActivity() {
                             }
                         }
                     }
-
                     override fun onFailure(call: Call<Void>, t: Throwable) {
                         showToast("請求失敗：${t.message}")
                     }
@@ -90,33 +89,39 @@ class VerificationCode : AppCompatActivity() {
 
     private fun showFailedVerificationDialog() {
         val account = UserSingleton.user
+        val mail = UserSingleton.user?.email
         if (account != null) {
-            showAlertDialog(
-                title = "驗證失敗",
-                message = "請重新驗證",
-                positiveButtonText = "重新驗證",
-                positiveButtonAction = {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("驗證碼錯誤")
+                .setMessage("請確認電子郵件： $mail 輸入正確，確認後請重新驗證")
+                .setPositiveButton("重新驗證") { _, _ ->
+                    // 重新驗證按鈕
                     resendVerificationMail(account)
-                },
-                negativeButtonText = "取消"
-            )
+                }
+                .setNegativeButton("修改電子郵件") { _, _ ->
+                    startResetEmailActivity()
+                }
+            builder.create().show()
         } else {
-            // 处理 currentUser 为空的情况
+            // 處理 currentUser 為空的情況
             showToast("無法獲取帳號資訊")
         }
     }
     private fun showExpiredVerificationDialog() {
         val account = UserSingleton.user
+        val mail = UserSingleton.user?.email
         if (account != null) {
-            showAlertDialog(
-                title = "驗證碼過期",
-                message = "請重新驗證",
-                positiveButtonText = "重新驗證",
-                positiveButtonAction = {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("驗證碼過期")
+                .setMessage("請確認電子郵件： $mail 輸入正確，確認後請重新驗證")
+                .setPositiveButton("重新驗證") { _, _ ->
+                    // 重新驗證按鈕
                     resendVerificationMail(account)
-                },
-                negativeButtonText = "取消"
-            )
+                }
+                .setNegativeButton("修改電子郵件") { _, _ ->
+                    startResetEmailActivity()
+                }
+            builder.create().show()
         } else {
             // 處理 currentUser 為空的情況
             showToast("無法獲取帳號資訊")
@@ -133,14 +138,12 @@ class VerificationCode : AppCompatActivity() {
                             // 200: 驗證碼重新寄送成功
                             showToast("驗證碼郵件重新寄送成功")
                         }
-
                         404 -> {
                             // 404: 驗證碼郵件寄送失敗
                             showToast("驗證碼郵件重新寄送失敗")
                             showFailedVerificationDialog()
                             // 可以執行額外的處理程序，例如提示重新驗證
                         }
-
                         else -> {
                             // 其他未處理的狀態碼
                             showToast("未知錯誤：${response.code()}")
@@ -151,7 +154,6 @@ class VerificationCode : AppCompatActivity() {
                     showToast("請求失敗：${response.code()}")
                 }
             }
-
             override fun onFailure(call: Call<Users>, t: Throwable) {
                 showToast("伺服器故障")
             }
@@ -169,29 +171,33 @@ class VerificationCode : AppCompatActivity() {
         finish() // Optional: Close this activity if needed
     }
 
-    private fun showAlertDialog(
+    fun showAlertDialog(
         title: String,
         message: String,
         positiveButtonText: String,
         positiveButtonAction: () -> Unit,
-        negativeButtonText: String? = null
+        negativeButtonText: String,
+        negativeButtonAction: () -> Unit
     ) {
-        val alertDialogBuilder = AlertDialog.Builder(this@VerificationCode)
-        alertDialogBuilder.setTitle(title)
-        alertDialogBuilder.setMessage(message)
-
-        alertDialogBuilder.setPositiveButton(positiveButtonText) { dialog, _ ->
-            positiveButtonAction.invoke()
-            dialog.dismiss()
-        }
-
-        negativeButtonText?.let {
-            alertDialogBuilder.setNegativeButton(negativeButtonText) { dialog, _ ->
-                dialog.dismiss()
+        val builder = AlertDialog.Builder(this@VerificationCode)
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positiveButtonText) { _, _ ->
+                positiveButtonAction.invoke()
             }
-        }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+            .setNegativeButton(negativeButtonText) { _, _ ->
+                negativeButtonAction.invoke()
+            }
+        builder.create().show()
+    }
+    private fun startRegisterActivity() {
+        val intent = Intent(this@VerificationCode, RegisterActivity::class.java)
+        startActivity(intent)
+        finish() // Optional: Close this activity if needed
+    }
+    private fun startResetEmailActivity() {
+        val intent = Intent(this@VerificationCode, ResetEmail::class.java)
+        startActivity(intent)
+        finish() // Optional: Close this activity if needed
     }
 }

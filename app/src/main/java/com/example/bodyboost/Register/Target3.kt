@@ -49,7 +49,7 @@ class Target3 : AppCompatActivity() {
 
         retrofitAPI.getProfile(userId).enqueue(object : Callback<Profile> {
             override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
-                progressDialog.dismiss() // 关闭进度对话框
+                progressDialog.dismiss()
 
                 when (response.code()) {
                     200 -> {

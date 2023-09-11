@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <TextView
             android:id="@+id/forgetpwd_text"
             android:layout_width="match_parent"
@@ -20,14 +19,13 @@
             android:layout_marginBottom="40dp"
             android:background="@color/Second"
             android:padding="10dp"
-            android:text="忘記密碼"
+            android:text="修改密碼"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             tools:ignore="TextContrastCheck" />
         <Button
-
             android:id="@+id/back"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -38,42 +36,53 @@
     </FrameLayout>
 
 
-
     <LinearLayout
         android:layout_width="322dp"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="確認您的電子郵件並發送重置連結"
-            android:layout_gravity="center"
-            android:layout_marginBottom="50dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="電子信箱"/>
+            android:text="請輸入新密碼" />
 
         <EditText
-            android:id="@+id/dark_mode"
-            android:text=""
+            android:id="@+id/new_pwd"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:paddingLeft="5px"
             android:background="@drawable/custom_edittext"
+            android:text=""
+            android:paddingLeft="5px"
             android:textColor="@color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="請再次確認密碼"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/check_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_edittext"
+            android:text=""
+            android:paddingLeft="5px"
+            android:textColor="@color/black" />
+
         <Button
-            android:id="@+id/resetpwd"
+            android:id="@+id/check_btn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
             android:layout_gravity="center"
+            android:layout_marginTop="200dp"
             android:background="@drawable/button"
-            android:text="重設密碼"
-            android:textColor="@color/white"/>
+            android:text="確認"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>

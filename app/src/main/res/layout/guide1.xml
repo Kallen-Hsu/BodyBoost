@@ -130,10 +130,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
-        android:gravity="right">
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/guide"
+            android:id="@+id/forward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -142,6 +142,8 @@
             android:backgroundTint="@color/Yellow"
             android:drawableRight="@drawable/baseline_arrow_forward_24"
             android:drawableTint="@color/Second"/>
+
+
 
     </LinearLayout>
 </LinearLayout>

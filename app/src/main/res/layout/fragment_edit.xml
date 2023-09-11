@@ -36,7 +36,7 @@
     </FrameLayout>
 
 
-    <ImageView
+    <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
@@ -45,7 +45,8 @@
         android:contentDescription="@string/picture"
         app:tint="@color/Second"
         card_view:srcCompat="@drawable/baseline_add_a_photo_24"
-        tools:ignore="ImageContrastCheck" />
+        tools:ignore="ImageContrastCheck"
+        android:background="@drawable/circle"/>
 
     <LinearLayout
         android:layout_width="322dp"
@@ -82,22 +83,6 @@
             tools:ignore="TextSizeCheck"
             app:drawableLeftCompat="@drawable/baseline_person_24" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/custom_edittext"
-            android:backgroundTint="@color/Lavender"
-            android:drawableStart="@drawable/baseline_lock_24"
-            android:drawablePadding="2dp"
-            android:hint="@string/password"
-            android:text=""
-            android:textColorHint="@color/white"
-            android:inputType="textPassword"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:autofillHints="" />
 
         <TextView
             android:id="@+id/mail"
@@ -116,22 +101,37 @@
             android:textSize="18sp"
             tools:ignore="TextSizeCheck"
             app:drawableLeftCompat="@drawable/baseline_mail_24" />
-
-        <TextView
-            android:id="@+id/bmi"
+        <Button
+            android:id="@+id/pwd"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:autofillHints=""
             android:background="@drawable/custom_edittext"
             android:backgroundTint="@color/Lavender"
             android:drawablePadding="2dp"
             android:padding="12dp"
-            android:text="@string/bmi"
+            android:text="修改密碼"
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="18sp"
+            android:textSize="18dp"
+            tools:ignore="TextSizeCheck" />
+        <Button
+            android:id="@+id/bmi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autofillHints=""
+            android:background="@drawable/custom_edittext"
+            android:backgroundTint="@color/Lavender"
+            android:drawablePadding="2dp"
+            android:padding="12dp"
+            android:text="修改BMI"
+            android:textAlignment="viewStart"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18dp"
             tools:ignore="TextSizeCheck" />
 
     </LinearLayout>

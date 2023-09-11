@@ -71,7 +71,7 @@ class RegisterActivity : AppCompatActivity() {
             if (users != null) {
                 when (response.code()) {
                     200 -> {
-                        // 200: 驗證碼重新寄送成功
+                        // 200: 驗證碼寄送成功
                         UserSingleton.user = users
                         toast.setText("完成")
                         startRegisterInfoActivity()

@@ -2,11 +2,14 @@ package com.example.bodyboost
 
 import android.view.animation.Animation
 import com.example.bodyboost.Model.Accuracy
-import com.example.bodyboost.Model.Achievement
 import com.example.bodyboost.Model.DailyBonus
+import com.example.bodyboost.Model.GoalHistory
 import com.example.bodyboost.Model.Member
 import com.example.bodyboost.Model.Profile
+import com.example.bodyboost.Model.Setting
+import com.example.bodyboost.Model.UserAchievement
 import com.example.bodyboost.Model.Users
+import com.example.bodyboost.Model.WeightHistory
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -41,7 +44,7 @@ interface RetrofitAPI {
     @GET("api/achievement/")
     fun getAchievementData(
         @Path("id") id:Int
-    ): Call<Achievement>
+    ): Call<UserAchievement>
 
     //------------------------animation------------------------------
     @GET("api/animation/")
@@ -92,8 +95,8 @@ interface RetrofitAPI {
     fun forgetPwdMail(@Body account:Users): Call<String>
 
     //------------------------user------------------------------
-    @GET("api/users/{id}/")
-    fun getSpecialUserInfo(
+    @GET("api/users/{id}")
+    fun getUserInfo(
         @Path("id") id:Int
     ): Call<Users>
     @POST("api/users/add/")
@@ -103,7 +106,7 @@ interface RetrofitAPI {
         val password: String,
         val email:String
     )
-    @DELETE("api/users/delete/{id}/")
+    @DELETE("api/users/delete/{id}")
     fun deleteUser(
         @Path("id") id:Int
     ):Call<Users>
@@ -119,22 +122,22 @@ interface RetrofitAPI {
         val account: String,
         val password: String
     )
-    @PUT("api/users/update/email/{id}/")
+    @PUT("api/users/update/email/{id}")
     fun updateEmail(
         @Path("id") id:Int,
         @Body email: Users
-    ):Call<Void>
-    @PUT("api/users/update/password/{id}/")
+    ):Call<Users>
+    @PUT("api/users/update/password/{id}")
     fun updatePwd(
         @Path("id") id:Int,
         @Body password: Users
-    ):Call<Void>
-    @GET("api/users/{id}/")
+    ):Call<Users>
+    @GET("api/users/{id}")
     fun getUsers(
         @Path("id") id: Int
     ):Call<Users>
     //------------------------profile------------------------------
-    @GET("api/profile/")
+    @GET("api/profile/{id}")
     fun getUserProfile(
         @Path("id") id: Int
     ): Call<Profile>
@@ -150,14 +153,10 @@ interface RetrofitAPI {
         val userID: Int
     )
 
-    @DELETE("api/profile/delete/{id}/")
+    @DELETE("api/profile/delete/{id}")
     fun deleteProfile(
         @Path("id") id:String
     ):Call<Users>
-    @PUT("api/profile/update/bodyfat/{id}")
-    fun update_bodyfat(
-
-    )
     @PUT("api/profile/update/goal/{id}")
     fun update_goal(
         @Path("id") id: Int,
@@ -177,8 +176,6 @@ interface RetrofitAPI {
         @Path("id") id: Int,
         @Body body_fat: Profile
     ): Call<Profile>
-
-
     @GET("api/profile/{id}/")
     fun getProfile(
         @Path("id") id: Int
@@ -218,8 +215,8 @@ interface RetrofitAPI {
     @PUT("api/setting/update/{id}")
     fun UpdateSetting(
         @Path("id") id: Int,
-        @Body settingData: SettingData
-    ): Call<Void>
+        @Body settingData: Setting
+    ): Call<Setting>
     data class SettingData(
         val theme: String,
         val anim_char_name: String,
@@ -239,5 +236,16 @@ interface RetrofitAPI {
         val user_id: Int
 
     )
+    //---------------------------WeightHistory-----------------------
+    @GET("api/weighthistory/{id}")
+    fun getWeightHistory(
+        @Path("id") id: Int
+    ): Call<WeightHistory>
+    //---------------------------GoalHistory-----------------------
+    @GET("api/goalhistory/{id}")
+    fun getGoalHistory(
+        @Path("id") id: Int
+    ): Call<GoalHistory>
+
 }
 

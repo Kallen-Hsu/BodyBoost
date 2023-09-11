@@ -34,7 +34,7 @@ class NotificationFragment : Fragment() {
     private val animCharName = "normal"
     private val theme = "light"
     private val calendar = Calendar.getInstance()
-    private val selectedDaysOfWeek = mutableSetOf<Int>() // 使用 Set 以确保不重复的选择
+    private val selectedDaysOfWeek = mutableSetOf<Int>()
     private val daysOfWeek = arrayOf(
         "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"
     )
@@ -44,19 +44,15 @@ class NotificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.notification, container, false)
-
-        // 检查并请求通知权限
         checkAndRequestNotificationPermission()
         addNotificationTimeBtn = view.findViewById(R.id.selectTimeButton)
         addNotificationTimeBtn.setOnClickListener {
             showTimePicker()
         }
-
         notificationSwitch = view.findViewById(R.id.notification_switch)
         notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
             isAlerted = isChecked
         }
-
         return view
     }
 
@@ -80,19 +76,16 @@ class NotificationFragment : Fragment() {
 
     private fun showConfirmationDialog(selectedTime: String) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Selected Time")
-        builder.setMessage("You have selected the time: $selectedTime, confirm?")
+        builder.setTitle("確定選擇時間")
+        builder.setMessage("你選擇的時間是: $selectedTime, 確定嗎?")
 
         builder.setPositiveButton("Confirm") { _, _ ->
             addNotificationTimeBtn.text = selectedTime
             showDayOfWeekSelectionDialog()
             // updateSetting(theme, animCharName, true, alertDay, selectedTime)
         }
-
         builder.setNegativeButton("Cancel") { _, _ ->
-            // 用户选择取消，不执行任何操作
         }
-
         builder.show()
     }
 
@@ -123,7 +116,7 @@ class NotificationFragment : Fragment() {
         }
 
         builder.setNegativeButton("取消") { _, _ ->
-            // 用户選擇取消，不执行任何操作
+
         }
 
         builder.show()
@@ -141,7 +134,7 @@ class NotificationFragment : Fragment() {
         val alarmManager =
             requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        // 设置每周提醒的逻辑
+        //設置每週提醒的邏輯
         val triggerTimeMillis = calendar.timeInMillis
         val intervalMillis = AlarmManager.INTERVAL_DAY * 7
 
