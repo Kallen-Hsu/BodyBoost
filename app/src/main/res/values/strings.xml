@@ -64,8 +64,8 @@
     <string name="username">姓名</string>
     <string name="height">身高</string>
     <string name="gender">性別</string>
-    <string name="g" />
-    <string name="ml" />
+    <string name="g">g</string>
+    <string name="ml">ml</string>
     <string name="not_required_items">非必填</string>
     <string name="required_items">必填</string>
     <string name="complete">完成</string>
