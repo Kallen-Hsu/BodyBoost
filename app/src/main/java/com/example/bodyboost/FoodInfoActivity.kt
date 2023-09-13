@@ -2,7 +2,10 @@ package com.example.bodyboost
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bodyboost.Model.Food
@@ -13,7 +16,8 @@ import retrofit2.Response
 
 class FoodInfoActivity : AppCompatActivity() {
 
-    private val userId: Int = 1
+    val currentUser = UserSingleton.user
+    private var userId: Int = 0
     private val retrofitAPI = RetrofitManager.getInstance()
     private lateinit var back: Button
     private lateinit var add: Button
@@ -43,6 +47,7 @@ class FoodInfoActivity : AppCompatActivity() {
         carb = findViewById(R.id.carb)
         fat = findViewById(R.id.fat)
         sodium = findViewById(R.id.sodium)
+        val intakeSize = findViewById<EditText>(R.id.intakeSize)
 
         displayFoodInformation(selectedFood)
 
