@@ -34,7 +34,6 @@ class FoodTypeActivity : AppCompatActivity() {
 
     private lateinit var listView: ListView
     private lateinit var noFood: TextView
-    private var optionId: Int = 0
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +42,9 @@ class FoodTypeActivity : AppCompatActivity() {
         val spinnerItems = listOf("五穀澱粉類", "蛋肉魚類", "蔬菜類", "水果類", "乳品類", "豆類", "飲料類", "酒類", "油脂與堅果類", "零食點心", "速食類", "調味品", "菜餚類", "其他類別")
         if (currentUser != null) {
             userId = currentUser.id
+        }
+        var optionId: Int = 0
+        if (receivedIntent != null) {
         }
 
         // findViewById
@@ -53,8 +55,8 @@ class FoodTypeActivity : AppCompatActivity() {
         noFood = findViewById(R.id.noFood)
 
         // set spinner
-        val spinnerAdapter = ArrayAdapter(this, R.drawable.spinner_back, spinnerItems)
-        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = spinnerAdapter
         if (receivedIntent != null) {
             optionId = receivedIntent.getIntExtra("optionId", 0)
