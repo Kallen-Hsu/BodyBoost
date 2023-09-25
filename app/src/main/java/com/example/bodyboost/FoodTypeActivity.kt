@@ -51,7 +51,7 @@ class FoodTypeActivity : AppCompatActivity() {
         val spinner = findViewById<Spinner>(R.id.spinner_type)
         val foodOptions = findViewById<FloatingActionButton>(R.id.button_food_options)
         val back = findViewById<Button>(R.id.back)
-        listView = findViewById(R.id.listView)
+        listView = findViewById(R.id.customListView)
         noFood = findViewById(R.id.noFood)
 
         // set spinner
@@ -81,8 +81,7 @@ class FoodTypeActivity : AppCompatActivity() {
 
     private fun displayFood(foodId: Int) {
         loadProgressDialog()
-        val call = retrofitAPI.searchFoodById(foodId.toString(), userId.toString(), 1, 50)
-        call.enqueue(object : Callback<List<Food>> {
+        retrofitAPI.searchFoodById(foodId.toString(), userId.toString(), 1, 50).enqueue(object : Callback<List<Food>> {
             override fun onResponse(call: Call<List<Food>>, response: Response<List<Food>>) {
                 displayFoodResponse(response)
             }
@@ -119,13 +118,13 @@ class FoodTypeActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                noFood.text = "目前此類別尚無資料"
+                noFood.text = "此類別目前尚無資料"
                 noFood.setBackgroundColor(Color.WHITE)
                 //showToast("伺服器返回數據為空")
                 println(response.toString())
             }
         } else {
-            noFood.text = "目前此類別資料有誤"
+            noFood.text = "此類別資料有誤"
             noFood.setBackgroundColor(Color.WHITE)
             //showToast("搜尋食物請求失敗 " + response.message())
             println(response.toString())
@@ -139,12 +138,8 @@ class FoodTypeActivity : AppCompatActivity() {
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 val intent = Intent(this@FoodTypeActivity, FoodInfoActivity::class.java)
                 val food: Food = foodList[position]
-                if (food != null) {
-                    intent.putExtra("food", food)
-                    startActivity(intent)
-                } else {
-                    showToast("食物資料為空")
-                }
+                intent.putExtra("food", food)
+                startActivity(intent)
             }
     }
 

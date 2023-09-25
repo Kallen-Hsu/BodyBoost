@@ -296,17 +296,17 @@ interface RetrofitAPI {
     ): Call<Void>
 
 // ------custom food--------------------------------------------------------------------------------
-    @POST("api/customfood/add")
-    fun addCustomFood( @Body addCustomFoodData: CustomFoodData ): Call<List<CustomFood>>
-    data class CustomFoodData(
+    @POST("api/customfood/add/")
+    fun addCustomFood( @Body addCustomFoodData: AddCustomFoodData ): Call<CustomFood>
+    data class AddCustomFoodData(
         val name: String,
-        val calorie: Float,
-        val size: Float,
+        val calorie: Number,
+        val size: Number,
         val unit: String,
-        val protein: Float?,
-        val fat: Float?,
-        val carb: Float?,
-        val sodium: Float?,
+        val protein: Number?,
+        val fat: Number?,
+        val carb: Number?,
+        val sodium: Number?,
         val modify: Boolean,
         val food_type_id: Int,
         val store_id: Int,
@@ -319,7 +319,7 @@ interface RetrofitAPI {
     @PUT("api/customfood/update/{id}")
     fun updateCustomFood(
         @Path("id") id:String,
-        @Body updateCustomFood: CustomFoodData
+        @Body updateCustomFood: AddCustomFoodData
     ):Call<Void>
 
     @GET("api/customfood/{id}")
@@ -335,15 +335,15 @@ interface RetrofitAPI {
     data class DietRecordData(
         val date: String,
         val label: String,
-        val serving_amount: Float,
+        val serving_amount: Number,
         val name: String,
-        val calorie: Float,
-        val size: Float,
+        val calorie: Number,
+        val size: Number,
         val unit: String,
-        val protein: Float,
-        val fat: Float,
-        val carb: Float,
-        val sodium: Float,
+        val protein: Number,
+        val fat: Number,
+        val carb: Number,
+        val sodium: Number,
         val modify: Boolean,
         val food_type_id: Int,
         val store_id: Int,

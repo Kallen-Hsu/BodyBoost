@@ -18,7 +18,6 @@ import java.lang.Exception
 class FoodInfoActivity : AppCompatActivity() {
 
     val currentUser = UserSingleton.user
-    private var userId: Int = 0
     private val retrofitAPI = RetrofitManager.getInstance()
     private lateinit var back: Button
     private lateinit var add: Button
@@ -70,7 +69,7 @@ class FoodInfoActivity : AppCompatActivity() {
         }
         intakeSize.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             try {
-                calculateIntakeSize(selectedFood)
+                changeIntakeSize(selectedFood)
             } catch (e: Exception) {
                 println("異常：${e.message}")
             } finally {}
@@ -88,10 +87,10 @@ class FoodInfoActivity : AppCompatActivity() {
     private fun displayFoodInformation(selectedFood: Food) {
         foodName.text = selectedFood.name
         calorie.text = selectedFood.calorie.toString()
-        protein.text = selectedFood.protein.toString()
-        carb.text = selectedFood.carb.toString()
-        fat.text = selectedFood.fat.toString()
-        sodium.text = selectedFood.sodium.toString()
+        protein.text = isNumberNull(selectedFood.protein).toString()
+        carb.text = isNumberNull(selectedFood.carb).toString()
+        fat.text = isNumberNull(selectedFood.fat).toString()
+        sodium.text = isNumberNull(selectedFood.sodium).toString()
         when (selectedFood.store_id) {
             1 -> storeName.text = ""
             null -> {
@@ -135,35 +134,44 @@ class FoodInfoActivity : AppCompatActivity() {
         })
     }
 
-    private fun calculateIntakeSize(food: Food) {
+    private fun changeIntakeSize(food: Food) {
         if (!isNumberNullOrZero(food.calorie)) {
-            calorie.text = (food.calorie.toString().toFloat() * intakeSize.text.toString().toFloat() / 100).toString()
+            calorie.text = calculateIntakeSize(food.calorie).toString()
         } else {
             calorie.text = "0.0"
         }
         if (!isNumberNullOrZero(food.protein)) {
-            protein.text = (food.protein.toString().toFloat() * intakeSize.text.toString().toFloat() / 100).toString()
+            protein.text = calculateIntakeSize(food.protein).toString()
         } else {
             protein.text = "0.0"
         }
         if (!isNumberNullOrZero(food.carb)) {
-            carb.text = (food.carb.toString().toFloat() * intakeSize.text.toString().toFloat() / 100).toString()
+            carb.text = calculateIntakeSize(food.carb).toString()
         } else {
             carb.text = "0.0"
         }
         if (!isNumberNullOrZero(food.fat)) {
-            fat.text = (food.fat.toString().toFloat() * intakeSize.text.toString().toFloat() / 100).toString()
+            fat.text = calculateIntakeSize(food.fat).toString()
         } else {
             fat.text = "0.0"
         }
         if (!isNumberNullOrZero(food.sodium)) {
-            sodium.text = (food.sodium.toString().toFloat() * intakeSize.text.toString().toFloat() / 100).toString()
+            sodium.text = calculateIntakeSize(food.sodium).toString()
         } else {
             sodium.text = "0.0"
         }
     }
 
-    private fun isNumberNullOrZero(number: Float?) : Boolean {
-        return number == null || number == 0.0f
+    private fun calculateIntakeSize(number: Number) : Number {
+        return (number.toDouble() * intakeSize.text.toString().toDouble()) / 100
+    }
+
+    private fun isNumberNullOrZero(number: Number?) : Boolean {
+        return number == null || number == 0.0
+    }
+
+    private fun isNumberNull(number: Number?): Number {
+        // check number is null
+        return number ?: 0.0
     }
 }

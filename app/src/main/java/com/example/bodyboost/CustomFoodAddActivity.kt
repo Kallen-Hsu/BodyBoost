@@ -19,14 +19,7 @@ class CustomFoodAddActivity : AppCompatActivity() {
     private var progressDialog: ProgressDialog? = null
     private val retrofitAPI = RetrofitManager.getInstance()
 
-    private lateinit var name: String
-    private var calorie: Float = 0.0f
-    private var size: Float = 0.0f
     private var unit: String = "g"
-    private var protein: Float? = null
-    private var fat: Float? = null
-    private var carb: Float? = null
-    private var sodium: Float? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +35,6 @@ class CustomFoodAddActivity : AppCompatActivity() {
         val foodName = findViewById<EditText>(R.id.foodName)
         val foodCalorie = findViewById<EditText>(R.id.foodCalorie)
         val foodSize = findViewById<EditText>(R.id.foodSize)
-        val foodProtein = findViewById<EditText>(R.id.foodProtein)
-        val foodFat = findViewById<EditText>(R.id.foodFat)
-        val foodCarb = findViewById<EditText>(R.id.foodCarb)
-        val foodSodium = findViewById<EditText>(R.id.foodSodium)
 
         // setOn
         back.setOnClickListener {
@@ -58,29 +47,32 @@ class CustomFoodAddActivity : AppCompatActivity() {
             }
         }
         inputFinished.setOnClickListener {
-            if (areEditTextsEmpty(foodName, foodCalorie, foodSize)) {
-                name = foodName.text.toString().trim()
-                calorie = foodCalorie.text.toString().trim().toFloat()
-                size = foodSize.text.toString().trim().toFloat()
-                protein = foodProtein.text.toString().trim().toFloatOrNull()
-                fat = foodFat.text.toString().trim().toFloatOrNull()
-                carb = foodCarb.text.toString().trim().toFloatOrNull()
-                sodium = foodSodium.text.toString().trim().toFloatOrNull()
-
-                addCustomFood(name, calorie, size, unit, protein, fat, carb, sodium, true)
+            val name = foodName.text.toString()
+            val calorie = foodCalorie.text.toString().toDouble()
+            val size = foodSize.text.toString().toDouble()
+            val protein = getEditTextValue(R.id.foodProtein).toDoubleOrNull()
+            val fat = getEditTextValue(R.id.foodFat).toDoubleOrNull()
+            val carb = getEditTextValue(R.id.foodCarb).toDoubleOrNull()
+            val sodium = getEditTextValue(R.id.foodSodium).toDoubleOrNull()
+            if (editTextValidate(foodName, foodCalorie, foodSize)) {
+                try {
+                    addCustomFood(name, calorie, size, unit, protein, fat, carb, sodium, true, userId)
+                } catch (e : Exception) {
+                    println("異常：${e.message}")
+                    showToast("新增自訂食物失敗")
+                }
             }
         }
     }
 
-    private fun addCustomFood(name: String, calorie: Float, size: Float, unit: String, protein: Float?, fat: Float?, carb: Float?, sodium: Float?, modify: Boolean) {
+    private fun addCustomFood(name: String, calorie: Number, size: Number, unit: String, protein: Number?, fat: Number?, carb: Number?, sodium: Number?, modify: Boolean, userID: Int) {
         loadProgressDialog()
-        val addCustomFoodData = RetrofitAPI.CustomFoodData(name, calorie, size, unit, protein, fat, carb, sodium, modify, 1, 1, userId)
-        val call = retrofitAPI.addCustomFood(addCustomFoodData)
-        call.enqueue(object : Callback<List<CustomFood>> {
-            override fun onResponse(call: Call<List<CustomFood>>, response: Response<List<CustomFood>>) {
+        val addCustomFoodData = RetrofitAPI.AddCustomFoodData(name, calorie, size, unit, protein, fat, carb, sodium, modify, 1, 1, userID)
+        retrofitAPI.addCustomFood(addCustomFoodData).enqueue(object : Callback<CustomFood> {
+            override fun onResponse(call: Call<CustomFood>, response: Response<CustomFood>) {
                 addCustomFoodResponse(response)
             }
-            override fun onFailure(call: Call<List<CustomFood>>, t: Throwable) {
+            override fun onFailure(call: Call<CustomFood>, t: Throwable) {
                 showToast("新增食物請求失敗：" + t.message)
                 t.printStackTrace()
                 dismissProgressDialog()
@@ -89,9 +81,9 @@ class CustomFoodAddActivity : AppCompatActivity() {
         })
     }
 
-    private fun addCustomFoodResponse(response: Response<List<CustomFood>>) {
+    private fun addCustomFoodResponse(response: Response<CustomFood>) {
         if (response.isSuccessful) {
-            val customFood: List<CustomFood>? = response.body()
+            val customFood: CustomFood? = response.body()
             if (customFood != null) {
                 when (response.code()) {
                     200 -> {
@@ -112,10 +104,15 @@ class CustomFoodAddActivity : AppCompatActivity() {
         dismissProgressDialog()
     }
 
-    private fun areEditTextsEmpty(vararg editTexts: EditText): Boolean {
-        // check EditText is Empty
+    private fun getEditTextValue(viewId: Int): String {
+        val editText = findViewById<EditText>(viewId)
+        return editText.text.toString()
+    }
+
+    private fun editTextValidate(vararg editTexts: EditText): Boolean {
+        // check EditText is Empty or Blank
         for (editText in editTexts) {
-            val text = editText.text.toString().trim()
+            val text = editText.text.toString()
             if (text.isBlank()) {
                 editText.error = "此項目為必填"
                 return false
@@ -127,7 +124,7 @@ class CustomFoodAddActivity : AppCompatActivity() {
     private fun loadProgressDialog() {
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
-            setMessage("Loading...")
+            setMessage("正在新增自訂食物...")
             setCanceledOnTouchOutside(false)
             show()
         }

@@ -1,5 +1,6 @@
 package com.example.bodyboost
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -11,7 +12,7 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import com.example.bodyboost.Model.CustomFood
+import com.example.bodyboost.Model.Food
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,9 +25,9 @@ class CustomFoodActivity : AppCompatActivity() {
     private var progressDialog: ProgressDialog? = null
     private val retrofitAPI = RetrofitManager.getInstance()
 
-    private lateinit var customFoodList: List<CustomFood>
+    private lateinit var customFoodList: List<Food>
     private lateinit var customFoodAdapter: CustomFoodAdapter
-    private lateinit var listView: ListView
+    private lateinit var customListView: ListView
     private lateinit var noCustomFood: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +41,7 @@ class CustomFoodActivity : AppCompatActivity() {
         val addCustomFood = findViewById<Button>(R.id.addCustomFood)
         val foodOptions = findViewById<FloatingActionButton>(R.id.button_food_options)
         val back = findViewById<Button>(R.id.back)
-        listView = findViewById(R.id.listView)
+        customListView = findViewById(R.id.customListView)
         noCustomFood = findViewById(R.id.noCustomFood)
 
         // setOnClickListener
@@ -59,12 +60,11 @@ class CustomFoodActivity : AppCompatActivity() {
 
     private fun displayCustomFood() {
         loadProgressDialog()
-        val call = retrofitAPI.getCustomFoodById(userId.toString(), 1, 50)
-        call.enqueue(object : Callback<List<CustomFood>> {
-            override fun onResponse(call: Call<List<CustomFood>>, response: Response<List<CustomFood>>) {
+        retrofitAPI.searchFoodById("1", userId.toString(), 1, 50).enqueue(object : Callback<List<Food>> {
+            override fun onResponse(call: Call<List<Food>>, response: Response<List<Food>>) {
                 displayCustomFoodResponse(response)
             }
-            override fun onFailure(call: Call<List<CustomFood>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Food>>, t: Throwable) {
                 showToast("請求失敗：" + t.message)
                 t.printStackTrace()
                 dismissProgressDialog()
@@ -73,9 +73,9 @@ class CustomFoodActivity : AppCompatActivity() {
         })
     }
 
-    private fun displayCustomFoodResponse(response: Response<List<CustomFood>>) {
+    private fun displayCustomFoodResponse(response: Response<List<Food>>) {
         if (response.isSuccessful) {
-            val customFood: List<CustomFood>? = response.body()
+            val customFood: List<Food>? = response.body()
             if (customFood != null) {
                 when (response.code()) {
                     200 -> {
@@ -101,7 +101,7 @@ class CustomFoodActivity : AppCompatActivity() {
                 println(response.toString())
             }
         } else {
-            noCustomFood.text = "目前此類別資料有誤"
+            noCustomFood.text = "此類別資料目前有誤"
             noCustomFood.setBackgroundColor(Color.WHITE)
             //showToast("搜尋食物請求失敗：" + response.message())
             println(response.toString())
@@ -110,13 +110,17 @@ class CustomFoodActivity : AppCompatActivity() {
     }
 
     private fun customFoodListView(customFoodAdapter: CustomFoodAdapter) {
-        listView.adapter = customFoodAdapter
-        listView.onItemClickListener =
+        customListView.adapter = customFoodAdapter
+        customListView.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 val intent = Intent(this@CustomFoodActivity, FoodInfoActivity::class.java)
-                val customFood: CustomFood = customFoodList[position]
-                intent.putExtra("customFood", customFood)
-                startActivity(intent)
+                val customFood: Food = customFoodList[position]
+                if (customFood != null) {
+                    intent.putExtra("food", customFood)
+                    startActivity(intent)
+                } else {
+                    showToast("食物資料為空")
+                }
             }
     }
 
