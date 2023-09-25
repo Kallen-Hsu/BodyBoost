@@ -1,6 +1,8 @@
 package com.example.bodyboost
 
+import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -38,6 +40,7 @@ class CustomFoodAddActivity : AppCompatActivity() {
 
         // setOn
         back.setOnClickListener {
+            navigateActivity(CustomFoodActivity())
             finish()
         }
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -88,6 +91,7 @@ class CustomFoodAddActivity : AppCompatActivity() {
                 when (response.code()) {
                     200 -> {
                         showToast("新增完成")
+                        navigateActivity(CustomFoodActivity())
                         finish()
                     }
                     404 -> showToast("404 錯誤")
@@ -119,6 +123,11 @@ class CustomFoodAddActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun navigateActivity(newActivity: Activity) {
+        val intent = Intent(this, newActivity::class.java)
+        startActivity(intent)
     }
 
     private fun loadProgressDialog() {
