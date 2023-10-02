@@ -1,9 +1,14 @@
 package com.example.bodyboost
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +20,7 @@ import com.example.bodyboost.Setting.AboutUs
 import com.example.bodyboost.Setting.EditFragment
 import com.example.bodyboost.Setting.NotificationFragment
 import com.example.bodyboost.Setting.SettingFragment
+import com.example.bodyboost.sport.SportFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -34,37 +40,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnItemSelectedListener{ menuItem ->
             when(menuItem.itemId){
                 R.id.home -> {
-                    replaceFragment(HomeFragment())
+                    replaceFragment(HomeFragment(), "Home")
                     true
                 }
                 R.id.sport -> {
-                    replaceFragment(SportFragment())
+                    replaceFragment(SportFragment(), "Sport")
                     true
                 }
                 R.id.report -> {
-                    replaceFragment(ReportFragment())
+                    replaceFragment(ReportFragment(), "Report")
                     true
                 }
                 R.id.record -> {
-                    replaceFragment(RecordFragment())
+                    replaceFragment(RecordFragment(), "Record")
                     true
                 }
                 R.id.achievement -> {
-                    replaceFragment(AchievementFragment())
+                    replaceFragment(AchievementFragment(), "Achieve")
                     true
                 }
                 R.id.notification -> {
-                    replaceFragment(NotificationFragment())
+                    replaceFragment(NotificationFragment(), "Notification")
                     true
                 }
                 R.id.upgrade -> {
-                    replaceFragment(UpgradeFragment())
+                    replaceFragment(UpgradeFragment(), "Upgrade")
                     true
                 }
                 else -> false
             }
         }
-        replaceFragment(HomeFragment())
+        replaceFragment(HomeFragment(), "Home")
 
         drawerLayout = findViewById(R.id.drawer_layout)
         //工具列
@@ -79,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         if (savedInstanceState == null) {
-            replaceFragment(HomeFragment())
+            replaceFragment(HomeFragment(), "Home")
             navigationView.setCheckedItem(R.id.nav_home)
         }
 //        oneTapClient = Identity.getSignInClient(this)
@@ -98,16 +104,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            // Automatically sign in when exactly one credential is retrieved.
 //            .setAutoSelectEnabled(true)
 //            .build()
+
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_home -> replaceFragment(HomeFragment())
-            R.id.nav_edit -> replaceFragment(EditFragment())
-            R.id.nav_sport_record -> replaceFragment(RecordFragment())
-            R.id.nav_meal_record -> replaceFragment(RecordFragment())
-            R.id.nav_question -> replaceFragment(HomeFragment())
-            R.id.nav_setting -> replaceFragment(SettingFragment())
-            R.id.nav_about -> replaceFragment(AboutUs())
+            R.id.nav_home -> replaceFragment(HomeFragment(), "Home")
+            R.id.nav_edit -> replaceFragment(EditFragment(), "Edit")
+            R.id.nav_sport_record -> replaceFragment(RecordFragment(), "Record")
+            R.id.nav_meal_record -> replaceFragment(RecordFragment(), "Record")
+            R.id.nav_question -> replaceFragment(HomeFragment(), "Home")
+            R.id.nav_setting -> replaceFragment(SettingFragment(), "Setting")
+            R.id.nav_about -> replaceFragment(AboutUs(), "About")
             R.id.nav_logout -> {
                 try {
                     Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
@@ -142,8 +149,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     //Outside onCreate
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit()
+    private fun replaceFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,fragment, tag).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -169,6 +176,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        val fragmentManager = supportFragmentManager
+
+        if (event?.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if ( v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    val sportFragment = fragmentManager.findFragmentByTag("Sport") as SportFragment
+                    sportFragment.setSearchBarEditTextClearFocus()
+                    val imm: InputMethodManager =
+                        getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
 //    //GOOGLE 登入

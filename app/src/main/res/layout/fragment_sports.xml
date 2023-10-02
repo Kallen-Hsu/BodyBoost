@@ -3,145 +3,59 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="390dp"
+    android:id="@+id/sport_scrollview"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:paddingBottom="50dp"
+    tools:ignore="InvalidId">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context=".SportFragment">
+        tools:context=".sport.SportFragment"
+        android:padding="20dp">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="320dp"
-            android:layout_height="40dp"
-            android:background="@drawable/custom_edittext"
-            android:backgroundTint="@color/Yellow"
-            android:hint="@string/search"
-            android:layout_marginTop="20dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:padding="10dp"
-            android:textColor="@color/TextColor"
-            android:autofillHints="auto"
-            android:inputType="text"
-            android:drawableRight="@drawable/baseline_search_24"
-            android:drawableTint="@color/Second"/>
+            android:orientation="horizontal">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="320dp"
-                android:layout_height="200dp"
-                android:src="@drawable/sport"/>
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/searchBarEditText"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="近期運動"
-                android:textColor="@color/TextColor"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="320dp"
-                android:layout_height="200dp"
-                android:src="@drawable/sport"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我的運動組合"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/TextColor"
-                android:textSize="16dp"
-                android:textStyle="bold"/>
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="15dp"
-                android:layout_gravity="right"
-                android:src="@drawable/baseline_add_24"
-                app:tint="@color/Second" />
+                android:layout_weight="1"
+                android:autofillHints="auto"
+                android:background="@drawable/custom_edittext"
+                android:backgroundTint="@color/Yellow"
+                android:drawableEnd="@drawable/baseline_search_24"
+                android:drawableTint="@color/Second"
+                android:hint="@string/search"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/TextColor" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="140dp"
-                android:layout_marginRight="10dp"
-                android:text="查看更多"
+                android:id="@+id/sportCancelButton"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/white"
-                android:background="@drawable/button"/>
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="所有運動"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/TextColor"
-            android:textSize="16dp"
-            android:textStyle="bold"/>
+                android:textSize="12sp"
+                android:visibility="gone"/>
+        </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/sportFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="100dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/sport_border"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="200dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/sport_border"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/sport_border"
-                tools:ignore="SpeakableTextPresentCheck" />
-
+            android:layout_height="match_parent">
         </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </LinearLayout>
 </ScrollView>

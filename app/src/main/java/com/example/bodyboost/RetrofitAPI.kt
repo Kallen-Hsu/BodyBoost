@@ -11,6 +11,7 @@ import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.Model.Store
+import com.example.bodyboost.sport.Sport
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -368,5 +369,13 @@ interface RetrofitAPI {
     ): Call<DietRecord>
 
 // -------------------------------------------------------------------------------------------------
+
+    // sport
+    @GET("api/sport/{id}")
+    fun getSportByUserId(
+        @Path("id") id: Int,
+        @Query("page") page: Int,
+        @Query("page_size") page_size: Int
+    ): Call<List<Sport>>
 }
 

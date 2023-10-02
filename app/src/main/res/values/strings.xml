@@ -81,4 +81,10 @@
     <string name="mg_chinese">毫克</string>
     <string name="add">新增</string>
     <string name="back_chinese">返回</string>
+
+    <!-- sport -->
+    <string name="sport_item_type_aerobics">有氧</string>
+    <string name="sport_item_type_anaerobic">無氧</string>
+    <string name="sport_item_timing">計時</string>
+    <string name="sport_item_counting">計次</string>
 </resources>
