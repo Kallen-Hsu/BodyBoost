@@ -314,7 +314,7 @@ interface RetrofitAPI {
     ) : Serializable
 
     @DELETE("api/customfood/delete/{id}")
-    fun deleteCustomFood( @Path("id") id:String ): Call<List<CustomFood>>
+    fun deleteCustomFood( @Path("id") id:String ): Call<CustomFood>
 
     @PUT("api/customfood/update/{id}")
     fun updateCustomFood(
