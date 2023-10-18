@@ -1,4 +1,4 @@
-package com.example.bodyboost
+package com.example.bodyboost.food
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -10,6 +10,10 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.bodyboost.Model.CustomFood
+import com.example.bodyboost.R
+import com.example.bodyboost.RetrofitAPI
+import com.example.bodyboost.RetrofitManager
+import com.example.bodyboost.UserSingleton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,7 +74,20 @@ class CustomFoodAddActivity : AppCompatActivity() {
 
     private fun addCustomFood(name: String, calorie: Number, size: Number, unit: String, protein: Number?, fat: Number?, carb: Number?, sodium: Number?, modify: Boolean, userID: Int) {
         loadProgressDialog()
-        val addCustomFoodData = RetrofitAPI.AddCustomFoodData(name, calorie, size, unit, protein, fat, carb, sodium, modify, 1, 1, userID)
+        val addCustomFoodData = RetrofitAPI.AddCustomFoodData(
+            name,
+            calorie,
+            size,
+            unit,
+            protein,
+            fat,
+            carb,
+            sodium,
+            modify,
+            1,
+            1,
+            userID
+        )
         retrofitAPI.addCustomFood(addCustomFoodData).enqueue(object : Callback<CustomFood> {
             override fun onResponse(call: Call<CustomFood>, response: Response<CustomFood>) {
                 addCustomFoodResponse(response)

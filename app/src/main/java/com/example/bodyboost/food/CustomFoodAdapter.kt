@@ -1,4 +1,4 @@
-package com.example.bodyboost
+package com.example.bodyboost.food
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bodyboost.Model.Food
+import com.example.bodyboost.R
 
 class CustomFoodAdapter(private val context: Context, private val customFoodList: List<Food>) :
     BaseAdapter() {

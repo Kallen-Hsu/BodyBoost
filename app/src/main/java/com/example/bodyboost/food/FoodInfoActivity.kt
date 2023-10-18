@@ -1,4 +1,4 @@
-package com.example.bodyboost
+package com.example.bodyboost.food
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +10,11 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.Model.Store
+import com.example.bodyboost.R
+import com.example.bodyboost.RecordFragment
+import com.example.bodyboost.RetrofitAPI
+import com.example.bodyboost.RetrofitManager
+import com.example.bodyboost.UserSingleton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +35,10 @@ class FoodInfoActivity : AppCompatActivity() {
     private lateinit var fat: TextView
     private lateinit var sodium: TextView
     private lateinit var intakeSize: EditText
+    private lateinit var dietRecords: List<RetrofitAPI.DietRecordData>
+    private lateinit var dietRecord: RetrofitAPI.DietRecordData
+    private val dateText = RecordFragment().dateText
+    private val label = RecordFragment().label
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +63,7 @@ class FoodInfoActivity : AppCompatActivity() {
 
         // setOnClickListener
         add.setOnClickListener {
+            addDietRecord(dateText, label, intakeSize.text.toString().toDouble(), selectedFood.name, )
             Toast.makeText(this, selectedFood.name + " 新增成功", Toast.LENGTH_SHORT).show()
             finish()
         }
@@ -74,7 +84,7 @@ class FoodInfoActivity : AppCompatActivity() {
                 println("異常：${e.message}")
             } finally {}
 
-            Toast.makeText(this@FoodInfoActivity, calorie.text, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@FoodInfoActivity, calorie.text, Toast.LENGTH_SHORT).show()
             false
         })
         intakeSize.addTextChangedListener(object : TextWatcher {
@@ -164,6 +174,27 @@ class FoodInfoActivity : AppCompatActivity() {
 
     private fun calculateIntakeSize(number: Number) : Number {
         return (number.toDouble() * intakeSize.text.toString().toDouble()) / 100
+    }
+
+    private fun addDietRecord(date: String, label: String, serving_amount: Number, name: String, calorie: Number, size: Number, unit: String, protein: Number, fat: Number, carb: Number, sodium: Number, modify: Boolean, food_type_id: Int, store_id: Int, user_id: Int) {
+        dietRecord = RetrofitAPI.DietRecordData(
+            date,
+            label,
+            serving_amount,
+            name,
+            calorie,
+            size,
+            unit,
+            protein,
+            fat,
+            carb,
+            sodium,
+            modify,
+            food_type_id,
+            store_id,
+            user_id
+        )
+
     }
 
     private fun isNumberNullOrZero(number: Number?) : Boolean {

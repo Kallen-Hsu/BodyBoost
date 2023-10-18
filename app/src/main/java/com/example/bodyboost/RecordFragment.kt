@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.bodyboost.food.SearchFoodActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -28,6 +29,8 @@ class RecordFragment : Fragment() {
     private lateinit var dinnerButton: ImageButton
     private lateinit var otherFoodButton: ImageButton
     private lateinit var dateTextView: TextView
+    lateinit var dateText: String
+    lateinit var label: String
 
     // food list
     private val foodRecordList = mutableListOf<String>()
@@ -55,24 +58,31 @@ class RecordFragment : Fragment() {
         // show date
         val dateFormat = SimpleDateFormat("yyyy年 MM月 dd日", Locale.getDefault())
         dateTextView.text = dateFormat.format(Date())
+        // date text
+        val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+        dateText = dateFormat2.format(Date())
         calendarButton.setOnClickListener {
             // select date
             showDatePicker(dateTextView)
         }
 
         breakfastButton.setOnClickListener {
+            label = "早餐"
             replaceActivity()
         }
 
         lunchButton.setOnClickListener {
+            label = "午餐"
             replaceActivity()
         }
 
         dinnerButton.setOnClickListener {
+            label = "晚餐"
             replaceActivity()
         }
 
         otherFoodButton.setOnClickListener {
+            label = "點心/其他"
             replaceActivity()
         }
 
@@ -99,6 +109,9 @@ class RecordFragment : Fragment() {
                 // 使用 SimpleDateFormat 將日期格式化為 'YYYY年 MM月 DD日' 的字串
                 val dateFormat = SimpleDateFormat("yyyy年 MM月 dd日", Locale.getDefault())
                 textView.text = dateFormat.format(selectedCalendar.time)
+                // save date text
+                val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+                dateText = dateFormat2.format(selectedCalendar.time)
             },
             year,
             month,

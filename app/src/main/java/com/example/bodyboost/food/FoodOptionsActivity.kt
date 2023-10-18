@@ -1,13 +1,12 @@
-package com.example.bodyboost
+package com.example.bodyboost.food
 
 import android.app.TimePickerDialog
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import com.example.bodyboost.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -39,7 +38,8 @@ class FoodOptionsActivity : AppCompatActivity() {
             finish()
         }
         completeButton.setOnClickListener {
-            showToast("輸入成功")
+//            addDietRecord()
+            showToast("新增成功")
             finish()
         }
     }

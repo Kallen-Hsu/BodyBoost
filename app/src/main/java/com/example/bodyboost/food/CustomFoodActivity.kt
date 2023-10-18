@@ -1,4 +1,4 @@
-package com.example.bodyboost
+package com.example.bodyboost.food
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.Food
+import com.example.bodyboost.R
+import com.example.bodyboost.RetrofitManager
+import com.example.bodyboost.UserSingleton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
