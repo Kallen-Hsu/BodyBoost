@@ -1,5 +1,5 @@
 package com.example.bodyboost
-import SportFragment
+
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Rect
@@ -20,6 +20,7 @@ import com.example.bodyboost.Setting.AboutUs
 import com.example.bodyboost.Setting.EditFragment
 import com.example.bodyboost.Setting.NotificationFragment
 import com.example.bodyboost.Setting.SettingFragment
+import com.example.bodyboost.sport.SportFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

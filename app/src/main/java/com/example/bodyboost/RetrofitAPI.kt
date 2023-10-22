@@ -1,6 +1,5 @@
 package com.example.bodyboost
 
-import Sport
 import android.view.animation.Animation
 import com.example.bodyboost.Model.Accuracy
 import com.example.bodyboost.Model.Achievement
@@ -16,6 +15,7 @@ import com.example.bodyboost.Model.Store
 import com.example.bodyboost.Model.UserAchievement
 import com.example.bodyboost.Model.Users
 import com.example.bodyboost.Model.WeightHistory
+import com.example.bodyboost.sport.Sport
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -371,5 +371,16 @@ interface RetrofitAPI {
         @Query("page") page: Int,
         @Query("page_size") page_size: Int
     ): Call<List<Sport>>
+    // ------store--------------------------------------------------------------------------------------
+    @GET("api/store/")
+    fun getAllStore(): Call<List<Store>>
+
+    @POST("api/store/add/")
+    fun addStore( @Body name: StoreData ): Call<Store>
+    data class StoreData(
+        val name:String
+    )
+
+
 }
 

@@ -1,8 +1,5 @@
 package com.example.bodyboost.sport
 
-import SportHorizontalItem
-import SportHorizontalListAdapter
-import SportItemAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

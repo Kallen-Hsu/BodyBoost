@@ -14,4 +14,9 @@
     <color name="TextColor">#000000</color>
     <color name="TextBoxColor">#575757</color>
     <color name="SidebarTextColor_Night">#FFFFFFFF</color>
+    <color name="sportItemsColor_yellow">#F0CF8F</color>
+    <color name="sportItemsColor_purple">#C5C0E7</color>
+    <color name="sportItemsColor_blue">#B1DCF2</color>
+    <color name="Second_light">#E9AFA3</color>
+    <color name="Second_light_double">#EFD0C9</color>
 </resources>
