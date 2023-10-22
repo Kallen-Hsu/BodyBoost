@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bodyboost.R
-import com.example.bodyboost.SportFragment
 
 class SportFinishedActivity :AppCompatActivity(){
     private lateinit var back_to_mainBtn:Button
