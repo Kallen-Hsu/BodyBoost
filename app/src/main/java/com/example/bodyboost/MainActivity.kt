@@ -1,6 +1,6 @@
 package com.example.bodyboost
+import SportFragment
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -20,7 +20,6 @@ import com.example.bodyboost.Setting.AboutUs
 import com.example.bodyboost.Setting.EditFragment
 import com.example.bodyboost.Setting.NotificationFragment
 import com.example.bodyboost.Setting.SettingFragment
-import com.example.bodyboost.sport.SportFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -40,37 +39,38 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnItemSelectedListener{ menuItem ->
             when(menuItem.itemId){
                 R.id.home -> {
-                    replaceFragment(HomeFragment(), "Home")
+                    replaceFragment(HomeFragment())
                     true
                 }
                 R.id.sport -> {
-                    replaceFragment(SportFragment(), "Sport")
+                    replaceFragment(SportFragment())
                     true
                 }
                 R.id.report -> {
-                    replaceFragment(ReportFragment(), "Report")
+                    replaceFragment(ReportFragment())
                     true
                 }
                 R.id.record -> {
-                    replaceFragment(RecordFragment(), "Record")
+                    replaceFragment(RecordFragment())
                     true
                 }
                 R.id.achievement -> {
-                    replaceFragment(AchievementFragment(), "Achieve")
+                    replaceFragment(AchievementFragment())
                     true
                 }
                 R.id.notification -> {
-                    replaceFragment(NotificationFragment(), "Notification")
+                    replaceFragment(NotificationFragment())
                     true
                 }
                 R.id.upgrade -> {
-                    replaceFragment(UpgradeFragment(), "Upgrade")
+                    replaceFragment(UpgradeFragment())
                     true
                 }
                 else -> false
             }
         }
-        replaceFragment(HomeFragment(), "Home")
+        bottomNavigationView.selectedItemId = R.id.home
+        replaceFragment(HomeFragment())
 
         drawerLayout = findViewById(R.id.drawer_layout)
         //工具列
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         if (savedInstanceState == null) {
-            replaceFragment(HomeFragment(), "Home")
+            replaceFragment(HomeFragment())
             navigationView.setCheckedItem(R.id.nav_home)
         }
 //        oneTapClient = Identity.getSignInClient(this)
@@ -104,17 +104,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            // Automatically sign in when exactly one credential is retrieved.
 //            .setAutoSelectEnabled(true)
 //            .build()
-
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_home -> replaceFragment(HomeFragment(), "Home")
-            R.id.nav_edit -> replaceFragment(EditFragment(), "Edit")
-            R.id.nav_sport_record -> replaceFragment(RecordFragment(), "Record")
-            R.id.nav_meal_record -> replaceFragment(RecordFragment(), "Record")
-            R.id.nav_question -> replaceFragment(HomeFragment(), "Home")
-            R.id.nav_setting -> replaceFragment(SettingFragment(), "Setting")
-            R.id.nav_about -> replaceFragment(AboutUs(), "About")
+            R.id.nav_home -> replaceFragment(HomeFragment())
+            R.id.nav_edit -> replaceFragment(EditFragment())
+            R.id.nav_sport_record -> replaceFragment(RecordFragment())
+            R.id.nav_meal_record -> replaceFragment(RecordFragment())
+            R.id.nav_question -> replaceFragment(HomeFragment())
+            R.id.nav_setting -> replaceFragment(SettingFragment())
+            R.id.nav_about -> replaceFragment(AboutUs())
             R.id.nav_logout -> {
                 try {
                     Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
@@ -149,8 +148,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     //Outside onCreate
-    private fun replaceFragment(fragment: Fragment, tag: String) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,fragment, tag).commit()
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

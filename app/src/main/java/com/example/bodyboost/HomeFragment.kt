@@ -29,9 +29,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val listItems = listOf("滷肉飯 200 kcal", "珍珠奶茶 200 kcal", "珍珠奶茶 200 kcal", "珍珠奶茶 200 kcal")
-
-
         signInManager = SignInManager(requireContext())
         check_in_btn = view.findViewById<Button>(R.id.daily_signup)
         check_in_btn.setOnClickListener {
@@ -51,7 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             t.printStackTrace()
                         }
                     })
-                    // 执行签到
+                    // 執行簽到
                     signInManager.performSignIn()
                 }
             } else {

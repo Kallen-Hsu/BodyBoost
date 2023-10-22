@@ -84,7 +84,7 @@
             android:textAlignment="center"
             android:background="@drawable/custom_edittext"
             android:padding="8dp"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:hint="@string/gender"
             android:textColor="@color/black"
             android:textColorHint="@color/black" />

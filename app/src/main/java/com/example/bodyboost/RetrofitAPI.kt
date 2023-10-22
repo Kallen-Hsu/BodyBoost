@@ -1,17 +1,21 @@
 package com.example.bodyboost
 
+import Sport
 import android.view.animation.Animation
 import com.example.bodyboost.Model.Accuracy
 import com.example.bodyboost.Model.Achievement
 import com.example.bodyboost.Model.DailyBonus
 import com.example.bodyboost.Model.Member
 import com.example.bodyboost.Model.Profile
-import com.example.bodyboost.Model.Users
 import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.Model.Food
+import com.example.bodyboost.Model.GoalHistory
+import com.example.bodyboost.Model.Setting
 import com.example.bodyboost.Model.Store
-import com.example.bodyboost.sport.Sport
+import com.example.bodyboost.Model.UserAchievement
+import com.example.bodyboost.Model.Users
+import com.example.bodyboost.Model.WeightHistory
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -46,7 +50,7 @@ interface RetrofitAPI {
     @GET("api/achievement/")
     fun getAchievementData(
         @Path("id") id:Int
-    ): Call<Achievement>
+    ): Call<UserAchievement>
 
     //------------------------animation------------------------------
     @GET("api/animation/")
@@ -139,7 +143,7 @@ interface RetrofitAPI {
         @Path("id") id: Int
     ):Call<Users>
     //------------------------profile------------------------------
-    @GET("api/profile/")
+    @GET("api/profile/{id}")
     fun getUserProfile(
         @Path("id") id: Int
     ): Call<Profile>
@@ -155,14 +159,10 @@ interface RetrofitAPI {
         val userID: Int
     )
 
-    @DELETE("api/profile/delete/{id}/")
+    @DELETE("api/profile/delete/{id}")
     fun deleteProfile(
         @Path("id") id:String
     ):Call<Users>
-    @PUT("api/profile/update/bodyfat/{id}")
-    fun update_bodyfat(
-
-    )
     @PUT("api/profile/update/goal/{id}")
     fun update_goal(
         @Path("id") id: Int,
@@ -244,22 +244,31 @@ interface RetrofitAPI {
         val user_id: Int
 
     )
+    //---------------------------WeightHistory-----------------------
+    @GET("api/weighthistory/{id}")
+    fun getWeightHistory(
+        @Path("id") id: Int
+    ): Call<WeightHistory>
+    //---------------------------GoalHistory-----------------------
+    @GET("api/goalhistory/{id}")
+    fun getGoalHistory(
+        @Path("id") id: Int
+    ): Call<GoalHistory>
 
-// ------food---------------------------------------------------------------------------------------
+    // ------food---------------------------------------------------------------------------------------
     @GET("api/food/")
     fun getAllFood(
         @Query("page") page:Int,
         @Query("page_size") page_size:Int
     ): Call<List<Food>>
-
-// ------search food--------------------------------------------------------------------------------
+    // ------search food--------------------------------------------------------------------------------
     @GET("api/searchfood/foodtype/{id}/{userId}")
     fun searchFoodById(
         @Path("id") id:String,
         @Path("userId") userId:String,
         @Query("page") page:Int,
         @Query("page_size") page_size: Int
-        ): Call<List<Food>>
+    ): Call<List<Food>>
 
     @GET("api/searchfood/store/{id}/{userId}")
     fun searchFoodByStore(
@@ -276,17 +285,6 @@ interface RetrofitAPI {
         @Query("page_size") page_size: Int,
         @Path("userId") userId:String
     ): Call<Food>
-
-// ------store--------------------------------------------------------------------------------------
-    @GET("api/store/")
-    fun getAllStore(): Call<List<Store>>
-
-    @POST("api/store/add/")
-    fun addStore( @Body name: StoreData ): Call<Store>
-    data class StoreData(
-        val name:String
-    )
-
     @DELETE("api/store/delete/{id}")
     fun deleteStore( @Path("id") id:String ): Call<Store>
 
@@ -295,42 +293,7 @@ interface RetrofitAPI {
         @Path("id") id:String,
         @Body name: Store
     ): Call<Void>
-
-// ------custom food--------------------------------------------------------------------------------
-    @POST("api/customfood/add")
-    fun addCustomFood( @Body addCustomFoodData: CustomFoodData ): Call<List<CustomFood>>
-    data class CustomFoodData(
-        val name: String,
-        val calorie: Float,
-        val size: Float,
-        val unit: String,
-        val protein: Float?,
-        val fat: Float?,
-        val carb: Float?,
-        val sodium: Float?,
-        val modify: Boolean,
-        val food_type_id: Int,
-        val store_id: Int,
-        val user_id: Int
-    ) : Serializable
-
-    @DELETE("api/customfood/delete/{id}")
-    fun deleteCustomFood( @Path("id") id:String ): Call<List<CustomFood>>
-
-    @PUT("api/customfood/update/{id}")
-    fun updateCustomFood(
-        @Path("id") id:String,
-        @Body updateCustomFood: CustomFoodData
-    ):Call<Void>
-
-    @GET("api/customfood/{id}")
-    fun getCustomFoodById(
-        @Path("id") id: String,
-        @Query("page") page:Int,
-        @Query("page_size") page_size:Int
-    ): Call<List<CustomFood>>
-
-// ------diet record--------------------------------------------------------------------------------
+    // ------diet record--------------------------------------------------------------------------------
     @POST("api/dietrecord/add/")
     fun addDietRecord( @Body addDietRecordData: DietRecordData )
     data class DietRecordData(
@@ -367,10 +330,41 @@ interface RetrofitAPI {
     fun getDietRecord(
         @Path("id") id:String
     ): Call<DietRecord>
+    // ------custom food--------------------------------------------------------------------------------
+    @POST("api/customfood/add")
+    fun addCustomFood( @Body addCustomFoodData: CustomFoodData ): Call<List<CustomFood>>
+    data class CustomFoodData(
+        val name: String,
+        val calorie: Float,
+        val size: Float,
+        val unit: String,
+        val protein: Float?,
+        val fat: Float?,
+        val carb: Float?,
+        val sodium: Float?,
+        val modify: Boolean,
+        val food_type_id: Int,
+        val store_id: Int,
+        val user_id: Int
+    ) : Serializable
 
+    @DELETE("api/customfood/delete/{id}")
+    fun deleteCustomFood( @Path("id") id:String ): Call<List<CustomFood>>
+
+    @PUT("api/customfood/update/{id}")
+    fun updateCustomFood(
+        @Path("id") id:String,
+        @Body updateCustomFood: CustomFoodData
+    ):Call<Void>
+
+    @GET("api/customfood/{id}")
+    fun getCustomFoodById(
+        @Path("id") id: String,
+        @Query("page") page:Int,
+        @Query("page_size") page_size:Int
+    ): Call<List<CustomFood>>
 // -------------------------------------------------------------------------------------------------
-
-    // sport
+// sport
     @GET("api/sport/{id}")
     fun getSportByUserId(
         @Path("id") id: Int,

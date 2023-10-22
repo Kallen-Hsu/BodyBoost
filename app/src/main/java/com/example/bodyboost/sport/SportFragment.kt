@@ -1,5 +1,8 @@
 package com.example.bodyboost.sport
 
+import SportHorizontalItem
+import SportHorizontalListAdapter
+import SportItemAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -151,10 +154,10 @@ class SportFragment : Fragment() {
     private fun addLastSportItemData() {
         lastSportList.add(
             SportHorizontalItem(
-            id = 1,
-            name = "開合跳",
-            image = "https://storage.googleapis.com/bodyboost-bucket/animation_img/Lisa-jumping-jack-light-image.gif"
-        ))
+                id = 1,
+                name = "開合跳",
+                image = "https://storage.googleapis.com/bodyboost-bucket/animation_img/Lisa-jumping-jack-light-image.gif"
+            ))
         lastSportList.add(
             SportHorizontalItem(
                 id = 2,

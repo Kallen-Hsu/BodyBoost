@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">#9A9A9A</item>
-        <item name="colorOnPrimary">#000000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
         <item name="android:iconTint">@color/black</item>
         <item name="actionBarPopupTheme">@color/black</item>
         <!-- Secondary brand color. -->
@@ -29,4 +29,7 @@
     </style>
     <style name="Base.Theme.Spinner" parent="Theme.Material3.DayNight.NoActionBar"></style>
     <style name="theme.spinner" parent="Base.Theme.Spinner" />
+    <style name="Text">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 </resources>

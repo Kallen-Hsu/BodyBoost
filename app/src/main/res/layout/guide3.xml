@@ -3,53 +3,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:textAlignment="center">
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/baseline_menu_book_24"
-        android:layout_gravity="center"/>
-
-    <TextView
+    android:orientation="vertical"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp">
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="指南"
-        android:textSize="36dp"
-        android:textAlignment="center"
-        android:layout_marginTop="200dp"/>
-</FrameLayout>
-    <TextView
-        android:layout_width="300dp"
         android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="人體脂肪率男性15-25%為正常範圍，女性20-30%為正常範圍，體脂率過多或過少都對身體有害"
-        android:textSize="20dp"
-        android:layout_marginTop="40dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:gravity="right">
+        android:textAlignment="center">
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/baseline_menu_book_24"
+            android:layout_gravity="center"/>
 
-        <Button
-            android:id="@+id/guide"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text=""
-            android:textColor="@color/white"
-            android:backgroundTint="@color/Yellow"
-            android:drawableRight="@drawable/baseline_arrow_forward_24"
-            android:drawableTint="@color/Second"/>
+            android:layout_marginTop="200dp"
+            android:text="指南"
+            android:textAlignment="center"
+            android:textSize="36dp" />
+    </FrameLayout>
 
-    </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="宜採用水煮、蒸、滷的烹調取代油炸、煎、炒，取代外食。"
+        android:textSize="24dp"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textAlignment="textStart"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="人體脂肪率男性15-25%為正常範圍，女性20-30%為正常範圍，體脂率過多或過少都對身體有害。"
+        android:textSize="24dp"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textAlignment="textStart"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Yellow"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/baseline_arrow_back_ios_new_24"
+                android:layout_gravity="left"
+                android:background="@color/Yellow"
+                app:tint="@color/Second" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/forward"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/baseline_arrow_forward_ios_24"
+                android:layout_gravity="right"
+                android:background="@color/Yellow"
+                app:tint="@color/Second" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

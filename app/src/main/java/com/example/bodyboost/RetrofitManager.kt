@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitManager {
     private var retrofitAPI: RetrofitAPI? = null
-
     fun getInstance(): RetrofitAPI {
         if (retrofitAPI == null) {
             val okHttpClient = OkHttpClient.Builder()
@@ -21,7 +20,6 @@ object RetrofitManager {
                     chain.proceed(request)
                 }
                 .build()
-
             retrofitAPI = Retrofit.Builder()
                 .baseUrl("http://35.194.188.151/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -31,6 +29,5 @@ object RetrofitManager {
         }
         return retrofitAPI!!
     }
-
 }
 
