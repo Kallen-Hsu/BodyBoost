@@ -30,12 +30,6 @@
             android:drawableRight="@drawable/baseline_more_vert_24" />
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/animate"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@color/Yellow"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
