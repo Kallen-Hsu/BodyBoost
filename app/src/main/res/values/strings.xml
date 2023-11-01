@@ -42,6 +42,8 @@
     <string name="type_dish">菜餚類</string>
     <string name="type_others">其他類別</string>
     <string name="breakfast">早餐</string>
+    <string name="lunch">午餐</string>
+    <string name="dinner">晚餐</string>
     <string name="options">食物選項</string>
     <string name="continue_add">繼續新增</string>
     <string name="complete_add">新增完成</string>
