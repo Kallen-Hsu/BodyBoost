@@ -1,374 +1,229 @@
 package com.example.bodyboost
 
-import android.graphics.Color
+import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.*
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.PercentFormatter
-import java.util.*
+import com.example.bodyboost.Model.DietRecord
+import com.example.bodyboost.Food.FoodListSingleton
+import com.example.bodyboost.Food.FoodRecordAdapter
+import com.example.bodyboost.Food.SearchFoodActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
-class ReportFragment : Fragment() {
+class RecordFragment : Fragment() {
 
-    private lateinit var weightChart: LineChart
-    private lateinit var caloriesChart: LineChart
-    private lateinit var nutrientChart: PieChart
-    private lateinit var waterChart: BarChart
+    val currentUser = UserSingleton.user
+    private var userId: Int = 0
+    private val retrofitAPI = RetrofitManager.getInstance()
+    private var progressDialog: ProgressDialog? = null
 
-    // date and weight data list
-    private val weightRecordDate = mutableListOf<String>()
-    private val weightList = mutableListOf<Float>()
-    // weight chart use data
-    private val weightChartMaxAndMinList = mutableListOf<Float>()
+    private var dietRecords: List<DietRecord>? = null
+    private lateinit var foodRecordAdapter: FoodRecordAdapter
 
-    // calories data list
-    private val caloriesList = mutableListOf<Float>()
-    private val caloriesRecordDate = mutableListOf<String>()
-    private val caloriesChartMaxAndMinList = mutableListOf<Float>()
+    private lateinit var calendarButton: Button
+    private lateinit var waterButton: ImageButton
+    private lateinit var breakfastButton: ImageButton
+    private lateinit var lunchButton: ImageButton
+    private lateinit var dinnerButton: ImageButton
+    private lateinit var otherFoodButton: ImageButton
+    private lateinit var dateTextView: TextView
+    private lateinit var listViewBreakfast: ListView
+    private lateinit var listViewLunch: ListView
+    private lateinit var listViewDinner: ListView
+    private lateinit var listViewOther: ListView
 
-    // nutrient data list
-    private val nutrientList = mutableListOf<Float>()
-    private val nutrientLabel = mutableListOf<String>()
-    private val nutrientRecordDate = mutableListOf<String>()
-
-    //water data list
-    private val waterList = mutableListOf<Float>()
-    private val waterRecordDate = mutableListOf<String>()
-    private val waterMaxAndMinList = mutableListOf<Float>()
+    // food list
+    private val foodRecordList = mutableListOf<String>()
+    private val dateRecordList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_report, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_record, container, false)
 
         // findViewById
-        weightChart = rootView.findViewById(R.id.lineChart_weight)
-        caloriesChart = rootView.findViewById(R.id.lineChart_calorie)
-        nutrientChart = rootView.findViewById(R.id.pieChart_nutrient)
-        waterChart = rootView.findViewById(R.id.barChart_water)
+        calendarButton = rootView.findViewById(R.id.button_calendar)
+        dateTextView = rootView.findViewById(R.id.textView_date)
+        breakfastButton = rootView.findViewById(R.id.button_addBreakfast)
+        lunchButton = rootView.findViewById(R.id.button_addLunch)
+        dinnerButton = rootView.findViewById(R.id.button_addDinner)
+        otherFoodButton = rootView.findViewById(R.id.button_addOther)
+        waterButton = rootView.findViewById(R.id.button_addWater)
 
-        // api write here
-        // get dateList and weightList data: WeightHistory
+        // show date
+        val dateFormat = SimpleDateFormat("yyyy年 MM月 dd日", Locale.getDefault())
+        dateTextView.text = dateFormat.format(Date())
+        // date text
+        val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+        FoodListSingleton.dateText = dateFormat2.format(Date())
+        calendarButton.setOnClickListener {
+            // select date
+            showDatePicker(dateTextView)
+        }
 
-        weightChartInit()
-        caloriesChartInit()
-        nutrientChartInit()
-        waterChartInit()
+        breakfastButton.setOnClickListener {
+            FoodListSingleton.label = "早餐"
+            replaceActivity()
+        }
+
+        lunchButton.setOnClickListener {
+            FoodListSingleton.label = "午餐"
+            replaceActivity()
+        }
+
+        dinnerButton.setOnClickListener {
+            FoodListSingleton.label = "晚餐"
+            replaceActivity()
+        }
+
+        otherFoodButton.setOnClickListener {
+            FoodListSingleton.label = "點心/其他"
+            replaceActivity()
+        }
+
+        waterButton.setOnClickListener {
+            showWaterDialog()
+        }
 
         // Inflate the layout for this fragment
         return rootView
     }
 
-    private fun weightChartInit() {
-        // init weight chart
-        weightChart.description.isEnabled = false
-        weightChart.axisRight.isEnabled = false
-        weightChart.setNoDataText("目前尚無資料")
-        weightChart.setNoDataTextColor(Color.BLACK)
-        weightChart.setDrawGridBackground(false)
-        weightChart.setDrawBorders(false)
-        weightChart.invalidate()
-        // set weightChartMaxAndMinList
-        for (i in 0..600 step 4) {
-            weightChartMaxAndMinList.add(i.toFloat())
-        }
-        // updateData
-        if (weightRecordDate.isNotEmpty()) {
-            setWeightChart(findWeightChartMaxValue(weightList.max()), findWeightChartMinValue(weightList.min()))
-        }
+    private fun showDatePicker(textView: TextView) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            DatePickerDialog.OnDateSetListener { _: DatePicker, y: Int, m: Int, d: Int ->
+                val selectedCalendar = Calendar.getInstance()
+                selectedCalendar.set(y, m, d)
+
+                // 使用 SimpleDateFormat 將日期格式化為 'YYYY年 MM月 DD日' 的字串
+                val dateFormat = SimpleDateFormat("yyyy年 MM月 dd日", Locale.getDefault())
+                textView.text = dateFormat.format(selectedCalendar.time)
+                // save date text
+                val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+                FoodListSingleton.dateText = dateFormat2.format(selectedCalendar.time)
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show()
     }
 
-    private fun findWeightChartMaxValue(weightListMaxValue: Float): Float {
-        var max = 0f
-        for (value in weightChartMaxAndMinList) {
-            if (value > weightListMaxValue) {
-                max = value.toFloat()
-                break
+    private fun showWaterDialog() {
+        val builder = AlertDialog.Builder(this.context)
+        builder.setTitle("記錄飲水量")
+
+        val view = layoutInflater.inflate(R.layout.dialog_water, null)
+        builder.setView(view)
+
+        val waterDate = view.findViewById<TextView>(R.id.dateTextView)
+        val waterText = view.findViewById<EditText>(R.id.waterEditText)
+        waterDate.text = dateTextView.text
+        waterDate.setOnClickListener {
+            showDatePicker(waterDate)
+        }
+
+        builder.setPositiveButton("完成") { dialog, _ ->
+            val selectedDate = waterDate.text.toString()
+            val inputNumber = waterText.text.toString()
+            Toast.makeText(this.context, "往健康水美人邁進 $inputNumber 步", Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("取消", null)
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun displayDietRecord(userID: Int) {
+        loadProgressDialog()
+        retrofitAPI.getDietRecord(userID.toString()).enqueue(object : Callback<List<DietRecord>> {
+            override fun onResponse(call: Call<List<DietRecord>>, response: Response<List<DietRecord>>) {
+                displayDietRecordResponse(response)
             }
-        }
-        return max
-    }
-
-    private fun findWeightChartMinValue(weightListMinValue: Float): Float {
-        var min = 0f
-        for (value in weightChartMaxAndMinList.reversed()) {
-            if (value < weightListMinValue) {
-                min = value.toFloat()
-                break
+            override fun onFailure(call: Call<List<DietRecord>>, t: Throwable) {
+                showToast("請求失敗：" + t.message)
+                t.printStackTrace()
+                dismissProgressDialog()
+                println(t.message)
             }
-        }
-        return min
+        })
     }
 
-    private fun setWeightChart(yMax: Float, yMin: Float) {
-        // set X
-        weightChart.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
-            valueFormatter = IndexAxisValueFormatter(weightRecordDate)
-            labelCount = weightRecordDate.size
-            granularity = 1f
-            setDrawGridLines(false)
-        }
-        // set Y
-        weightChart.axisLeft.apply {
-            axisMaximum = yMax // weight max value
-            axisMinimum = yMin // weight min value
-            labelCount = 5
-        }
-        // add Y data
-        val yList = mutableListOf<Entry>()
-        var index = 0f
-        for (weight in weightList) {
-            yList.add(Entry(index, weight))
-            index += 1f
-        }
-        // set Y data
-        val lineDataSet = LineDataSet(yList, "體重")
-        lineDataSet.color = 0xFFE39D8F.toInt()
-        lineDataSet.setDrawValues(false)
-        lineDataSet.lineWidth = 1.5f
-        lineDataSet.circleRadius = 4f
-        lineDataSet.setCircleColor(0xFFE39D8F.toInt())
-        val lineData = LineData(lineDataSet)
-
-        // update weightChart data
-        weightChart.data = lineData
-        weightChart.setVisibleXRangeMaximum(4f)
-        weightChart.invalidate()
-    }
-
-    private fun caloriesChartInit() {
-        // init calories chart
-        caloriesChart.description.isEnabled = false
-        caloriesChart.axisRight.isEnabled = false
-        caloriesChart.setNoDataText("目前尚無資料")
-        caloriesChart.setNoDataTextColor(Color.BLACK)
-        caloriesChart.setDrawGridBackground(false)
-        caloriesChart.setDrawBorders(false)
-        caloriesChart.invalidate()
-        // set weightChartMaxAndMinList
-        for (i in 0..10000 step 4) {
-            caloriesChartMaxAndMinList.add(i.toFloat())
-        }
-        // updateData
-        if (caloriesRecordDate.isNotEmpty()) {
-            setCaloriesChart(findCaloriesChartMaxValue(caloriesList.max()), findCaloriesChartMinValue(caloriesList.min()))
-        }
-    }
-
-    private fun findCaloriesChartMaxValue(caloriesListMaxValue: Float): Float {
-        var max = 0f
-        for (value in caloriesChartMaxAndMinList) {
-            if (value > caloriesListMaxValue) {
-                max = value.toFloat()
-                break
+    private fun displayDietRecordResponse(response: Response<List<DietRecord>>) {
+        if (response.isSuccessful) {
+            val dietRecord: List<DietRecord>? = response.body()
+            if (dietRecord != null) {
+                when (response.code()) {
+                    200 -> {
+                        this.dietRecords = dietRecord
+                        foodRecordAdapter = FoodRecordAdapter(this, dietRecords!!)
+                        foodListView(foodRecordAdapter, listViewBreakfast)
+                    }
+                    404 -> showToast("404 錯誤")
+                    else -> showToast("伺服器錯誤，請稍後再試")
+                }
+            } else {
+                println(response.toString())
             }
+        } else {
+            println(response.toString())
         }
-        return max
+        dismissProgressDialog()
     }
 
-    private fun findCaloriesChartMinValue(caloriesListMinValue: Float): Float {
-        var min = 0f
-        for (value in caloriesChartMaxAndMinList.reversed()) {
-            if (value < caloriesListMinValue) {
-                min = value.toFloat()
-                break
-            }
-        }
-        return min
+    private fun foodListView(foodRecordAdapter: FoodRecordAdapter, listView: ListView) {
+        listView.adapter = foodRecordAdapter
     }
 
-    private fun setCaloriesChart(yMax: Float, yMin: Float) {
-        // set X
-        caloriesChart.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
-            valueFormatter = IndexAxisValueFormatter(caloriesRecordDate)
-            labelCount = caloriesRecordDate.size
-            granularity = 1f
-            setDrawGridLines(false)
-        }
-        // set Y
-        caloriesChart.axisLeft.apply {
-            axisMaximum = yMax // max value
-            axisMinimum = yMin // min value
-            labelCount = 5
-        }
-        // add Y data
-        val yList = mutableListOf<Entry>()
-        var index = 0f
-        for (calories in caloriesList) {
-            yList.add(Entry(index, calories))
-            index += 1f
-        }
-        // set Y data
-        val lineDataSet = LineDataSet(yList, "熱量")
-        lineDataSet.color = 0xFFE39D8F.toInt()
-        lineDataSet.setDrawValues(false)
-        lineDataSet.lineWidth = 1.5f
-        lineDataSet.circleRadius = 4f
-        lineDataSet.setCircleColor(0xFFE39D8F.toInt())
-
-        val lineData = LineData(lineDataSet)
-
-        // update caloriesChart data
-        caloriesChart.data = lineData
-        caloriesChart.setVisibleXRangeMaximum(4f)
-        caloriesChart.invalidate()
-
+    private fun replaceActivity() {
+        val intent = Intent(activity, SearchFoodActivity::class.java)
+        startActivity(intent)
     }
 
-    private fun nutrientChartInit() {
-        nutrientChart.apply {
-            description.isEnabled = false
-            setNoDataText("目前尚無資料")
-            setNoDataTextColor(Color.BLACK)
-            setDrawEntryLabels(false)
-            invalidate()
-        }
-        // label list
-        nutrientLabel.add("碳水化合物")
-        nutrientLabel.add("蛋白質")
-        nutrientLabel.add("脂肪")
-        nutrientLabel.add("其他")
-        // updateData
-        if (nutrientList.isNotEmpty()) {
-            setNutrientChart()
+    private fun loadProgressDialog() {
+        progressDialog = ProgressDialog(this.context).apply {
+            setCancelable(false)
+            setMessage("Loading...")
+            setCanceledOnTouchOutside(false)
+            show()
         }
     }
 
-    private fun setNutrientChart() {
-        // set nutrient
-        // set color
-        val pieColors = ArrayList<Int>()
-        pieColors.add(0xFFFF9E9E.toInt())
-        pieColors.add(0xFFFFBE9E.toInt())
-        pieColors.add(0xFFFFDB9E.toInt())
-        pieColors.add(0xFF9EBBFF.toInt())
-        // add data
-        val nList = mutableListOf<PieEntry>()
-        var index = 0
-        for (nutrient in nutrientList) {
-            var label = nutrientLabel[index]
-            nList.add(PieEntry(nutrient, label))
-            index += 1
-        }
-        // PieDataSet
-        val pieDataSet = PieDataSet(nList, "")
-        pieDataSet.colors = pieColors
-        pieDataSet.valueTextSize = 11f
-        // set PieData
-        val pieData = PieData(pieDataSet).apply {
-            setDrawValues(true)
-            setValueFormatter(PercentFormatter(nutrientChart))
-            setValueTextColor(Color.BLACK)
-        }
-        // set attributes
-        nutrientChart.apply {
-            setUsePercentValues(true)
-            setEntryLabelColor(Color.BLACK)
-            setHoleColor(Color.TRANSPARENT)
-            isDrawHoleEnabled = true
-            holeRadius = 50f
-            setDrawCenterText(false)
-        }
-// update data
-        nutrientChart.data = pieData
-        nutrientChart.invalidate()
+    private fun dismissProgressDialog() {
+        progressDialog?.dismiss()
     }
 
-    private fun waterChartInit() {
-        waterChart.apply {
-            description.isEnabled = false
-            axisRight.isEnabled = false
-            setNoDataText("目前尚無資料")
-            setNoDataTextColor(Color.BLACK)
-            setDrawGridBackground(false)
-            setDrawBorders(false)
-            invalidate()
-        }
-        // set weightChartMaxAndMinList
-        for (i in 0..4000 step 5) {
-            waterMaxAndMinList.add(i.toFloat())
-        }
-        // updateData
-        if (waterList.isNotEmpty()) {
-            setWaterChart(findWaterMaxValue(waterList.max()), findWaterMinValue(waterList.min()))
-        }
+    private fun showToast(message: String) {
+        Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setWaterChart(yMax: Float, yMin: Float) {
-        // set water
-        // set X
-        waterChart.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
-            valueFormatter = IndexAxisValueFormatter(waterRecordDate)
-            labelCount = waterRecordDate.size
-            granularity = 1f
-            setDrawGridLines(false)
-        }
-        // set Y
-        waterChart.axisLeft.apply {
-            axisMaximum = yMax
-            axisMinimum = yMin
-            labelCount = 5
-        }
-        // add Y data
-        val yList = mutableListOf<BarEntry>()
-        var index = 0f
-        for (water in waterList) {
-            yList.add(BarEntry(index, water))
-            index += 1f
-        }
-        // set Y data
-        val barDataSet = BarDataSet(yList, "飲水量")
-        barDataSet.setDrawValues(false)
-        barDataSet.color = Color.parseColor("#87B3FF")
-
-        val barData = BarData(barDataSet)
-        // update data
-        waterChart.data = barData
-        waterChart.setVisibleXRangeMaximum(7f)
-        waterChart.invalidate()
-    }
-
-    private fun findWaterMaxValue(waterListMaxValue: Float): Float {
-        var max = 0f
-        for (value in waterMaxAndMinList) {
-            if (value > waterListMaxValue) {
-                max = value.toFloat()
-                break
-            }
-        }
-        return max
-    }
-
-    private fun findWaterMinValue(waterListMinValue: Float): Float {
-        var min = 0f
-        for (value in waterMaxAndMinList) {
-            if (value < waterListMinValue) {
-                min = value.toFloat()
-                break
-            }
-        }
-        return min
-    }
 }

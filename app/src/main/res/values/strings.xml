@@ -42,6 +42,8 @@
     <string name="type_dish">菜餚類</string>
     <string name="type_others">其他類別</string>
     <string name="breakfast">早餐</string>
+    <string name="lunch">午餐</string>
+    <string name="dinner">晚餐</string>
     <string name="options">食物選項</string>
     <string name="continue_add">繼續新增</string>
     <string name="complete_add">新增完成</string>
@@ -64,8 +66,8 @@
     <string name="username">姓名</string>
     <string name="height">身高</string>
     <string name="gender">性別</string>
-    <string name="g" />
-    <string name="ml" />
+    <string name="g">g</string>
+    <string name="ml">ml</string>
     <string name="not_required_items">非必填</string>
     <string name="required_items">必填</string>
     <string name="complete">完成</string>

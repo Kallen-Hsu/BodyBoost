@@ -33,10 +33,10 @@
             android:name=".sport.SportFinishedActivity"
             android:exported="true" />
         <activity
-            android:name=".CustomFoodAddActivity"
+            android:name=".Food.CustomFoodAddActivity"
             android:exported="true" />
         <activity
-            android:name=".FoodTypeActivity"
+            android:name=".Food.FoodTypeActivity"
             android:exported="true" />
         <activity
             android:name=".Register.Target3"
@@ -83,16 +83,16 @@
             android:name=".DetailedActivity"
             android:exported="true" />
         <activity
-            android:name=".CustomFoodActivity"
+            android:name=".food.CustomFoodActivity"
             android:exported="true" />
         <activity
-            android:name=".FoodOptionsActivity"
+            android:name=".Food.FoodOptionsActivity"
             android:exported="true" />
         <activity
-            android:name=".FoodInfoActivity"
+            android:name=".Food.FoodInfoActivity"
             android:exported="true" />
         <activity
-            android:name=".SearchFoodActivity"
+            android:name=".Food.SearchFoodActivity"
             android:exported="true" />
         <activity
             android:name=".WelcomeActivity"

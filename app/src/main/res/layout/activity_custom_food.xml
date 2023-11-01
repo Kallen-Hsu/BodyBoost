@@ -4,33 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CustomFoodActivity">
+    tools:context=".food.CustomFoodActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="80dp"
-                android:layout_marginTop="60dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/button_time">
-
-                <ListView
-                    android:id="@+id/listView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="10sp"
-                    android:gravity="center_horizontal"
-                    android:scrollbars="none"
-                    tools:listitem="@layout/list_item_custom_food" />
-
-            </LinearLayout>
 
         <TextView
             android:id="@+id/noCustomFood"
@@ -44,6 +22,27 @@
             android:textAlignment="center"
             android:textColor="@color/TextColor"
             android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="80dp"
+            android:gravity="top"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_time">
+
+            <ListView
+                android:id="@+id/customListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10sp"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/list_item" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/title"
@@ -87,9 +86,9 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="25dp"
             android:backgroundTint="@color/white"
-            android:verticalScrollbarPosition="defaultPosition"
+            android:importantForAccessibility="no"
             android:src="@drawable/options_icon"
-            android:importantForAccessibility="no" />
+            android:verticalScrollbarPosition="defaultPosition" />
 
     </FrameLayout>
 

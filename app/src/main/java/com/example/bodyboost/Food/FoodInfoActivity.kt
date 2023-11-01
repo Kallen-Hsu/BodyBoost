@@ -1,4 +1,4 @@
-package com.example.bodyboost.food
+package com.example.bodyboost.Food
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,11 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.Model.Store
 import com.example.bodyboost.R
-import com.example.bodyboost.RecordFragment
 import com.example.bodyboost.RetrofitAPI
 import com.example.bodyboost.RetrofitManager
 import com.example.bodyboost.UserSingleton
