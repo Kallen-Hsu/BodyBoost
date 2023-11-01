@@ -331,7 +331,7 @@ interface RetrofitAPI {
 
 // ------diet record--------------------------------------------------------------------------------
     @POST("api/dietrecord/add/")
-    fun addDietRecord( @Body addDietRecordData: DietRecordData )
+    fun addDietRecord( @Body addDietRecordData: DietRecordData ): Call<DietRecord>
     data class DietRecordData(
         val date: String,
         val label: String,
@@ -348,10 +348,31 @@ interface RetrofitAPI {
         val food_type_id: Int,
         val store_id: Int,
         val user_id: Int
-    )
+    ) : Serializable
 
-//    @POST("api/dietrecord/add/many")
-//    fun addManyDietRecord()
+    @POST("api/dietrecord/add/many")
+    fun addManyDietRecord( @Body addDietREcordDataMany: DietRecordDataMany): Call<DietRecord>
+    data class DietRecordDataMany(
+        val date: String,
+        val label: String,
+        val user_id: Int,
+        val items: MutableList<DietRecordData2>
+    ) : Serializable
+
+    data class DietRecordData2(
+        val serving_amount: Number,
+        val name: String,
+        val calorie: Number,
+        val size: Number,
+        val unit: String,
+        val protein: Number,
+        val fat: Number,
+        val carb: Number,
+        val sodium: Number,
+        val modify: Boolean,
+        val food_type_id: Int,
+        val store_id: Int
+    ) : Serializable
 
     @DELETE("api/dietrecord/delete/{id}")
     fun deleteDietRecord( @Path("id") id:String ): Call<DietRecord>
@@ -365,7 +386,7 @@ interface RetrofitAPI {
     @GET("api/dietrecord/{id}")
     fun getDietRecord(
         @Path("id") id:String
-    ): Call<DietRecord>
+    ): Call<List<DietRecord>>
 
 // -------------------------------------------------------------------------------------------------
 }
