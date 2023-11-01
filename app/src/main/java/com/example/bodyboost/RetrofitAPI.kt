@@ -295,27 +295,48 @@ interface RetrofitAPI {
     ): Call<Void>
     // ------diet record--------------------------------------------------------------------------------
     @POST("api/dietrecord/add/")
-    fun addDietRecord( @Body addDietRecordData: DietRecordData )
+    fun addDietRecord( @Body addDietRecordData: DietRecordData ): Call<DietRecord>
     data class DietRecordData(
         val date: String,
         val label: String,
-        val serving_amount: Float,
+        val serving_amount: Number,
         val name: String,
-        val calorie: Float,
-        val size: Float,
+        val calorie: Number,
+        val size: Number,
         val unit: String,
-        val protein: Float,
-        val fat: Float,
-        val carb: Float,
-        val sodium: Float,
+        val protein: Number,
+        val fat: Number,
+        val carb: Number,
+        val sodium: Number,
         val modify: Boolean,
         val food_type_id: Int,
         val store_id: Int,
         val user_id: Int
-    )
+    ) : Serializable
 
-//    @POST("api/dietrecord/add/many")
-//    fun addManyDietRecord()
+    @POST("api/dietrecord/add/many")
+    fun addManyDietRecord( @Body addDietREcordDataMany: DietRecordDataMany): Call<DietRecord>
+    data class DietRecordDataMany(
+        val date: String,
+        val label: String,
+        val user_id: Int,
+        val items: MutableList<DietRecordData2>
+    ) : Serializable
+
+    data class DietRecordData2(
+        val serving_amount: Number,
+        val name: String,
+        val calorie: Number,
+        val size: Number,
+        val unit: String,
+        val protein: Number,
+        val fat: Number,
+        val carb: Number,
+        val sodium: Number,
+        val modify: Boolean,
+        val food_type_id: Int,
+        val store_id: Int
+    ) : Serializable
 
     @DELETE("api/dietrecord/delete/{id}")
     fun deleteDietRecord( @Path("id") id:String ): Call<DietRecord>
@@ -329,7 +350,8 @@ interface RetrofitAPI {
     @GET("api/dietrecord/{id}")
     fun getDietRecord(
         @Path("id") id:String
-    ): Call<DietRecord>
+    ): Call<List<DietRecord>>
+
     // ------custom food--------------------------------------------------------------------------------
     @POST("api/customfood/add")
     fun addCustomFood( @Body addCustomFoodData: CustomFoodData ): Call<List<CustomFood>>
@@ -363,6 +385,7 @@ interface RetrofitAPI {
         @Query("page") page:Int,
         @Query("page_size") page_size:Int
     ): Call<List<CustomFood>>
+
 // -------------------------------------------------------------------------------------------------
 // sport
     @GET("api/sport/{id}")
@@ -380,7 +403,6 @@ interface RetrofitAPI {
     data class StoreData(
         val name:String
     )
-
 
 }
 
