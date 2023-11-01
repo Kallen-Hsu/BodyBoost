@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/Lavender"/>
+        <Button
+            android:id="@+id/back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableLeft="@drawable/baseline_arrow_back_ios_new_24"
+            android:drawableTint="@color/white"
+            android:backgroundTint="@color/Lavender"
+            android:elevation="0dp"
+            android:stateListAnimator="@null" />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right"
+            android:stateListAnimator="@null"
+            android:backgroundTint="@color/Lavender"
+            android:drawableRight="@drawable/baseline_more_vert_24" />
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/animate"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="24dp"
+            android:text="手肘碰膝蓋"
+            android:textColor="@color/Second"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animate" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="20dp"
+            android:text="雙腿打開站立呈倒V字，雙手打開肘屈曲輕觸耳旁。收腹，令右手肘觸碰提起的左膝蓋，然後還原；再度收腹，將左手肘觸碰提起的右膝蓋。"
+            android:textColor="@color/Second"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:text="運動模式選擇"
+            android:textColor="@color/Second"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/textView8">
+            <Button
+                android:id="@+id/timingBtn"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:background="@drawable/button_sport_mode"
+                android:backgroundTint="@color/Yellow"
+                android:drawableTintMode="multiply"
+                android:text="計時"
+                android:textColor="@color/Second"
+                app:backgroundTint="@color/Yellow" />
+            <Button
+                android:id="@+id/countBtn"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:background="@drawable/button_sport_mode"
+                android:text="計次"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/rectangle"
+                    app:backgroundTint="@color/Yellow"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="start|center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="次數"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginRight="70dp"
+                        android:layout_gravity="start|center_vertical"/>
+                    <ImageButton
+                        android:id="@+id/minusBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:tint="@color/Second"
+                        android:src="@drawable/baseline_remove_24"
+                        android:background="@drawable/button_sport_mode"
+                        android:layout_gravity="start|center_vertical"/>
+
+                    <TextView
+                        android:id="@+id/setting_time"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/white" />
+                    <ImageButton
+                        android:id="@+id/plusBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/baseline_add_24"
+                        app:tint="@color/Second"
+                        android:background="@drawable/button_sport_mode"
+                        android:layout_gravity="start|center_vertical"/>
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="錄製運動影片"
+                    android:layout_marginRight="15dp"/>
+                <Switch
+                    android:id="@+id/notification_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"/>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="開始運動"
+                android:textColor="@color/white">
+
+            </Button>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

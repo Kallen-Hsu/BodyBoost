@@ -10,7 +10,7 @@ class SportItems: AppCompatActivity()  {
     private lateinit var animate: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sport_info)
+        setContentView(R.layout.activity_sport_info_timing)
 
 
         animate = findViewById(R.id.animate)

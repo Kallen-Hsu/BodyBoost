@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.bodyboost.R
-import com.example.bodyboost.sport.SportFragment
 
 class SportInfoActivity : AppCompatActivity() {
     private lateinit var animate: ImageView
@@ -22,7 +21,7 @@ class SportInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sport_info)
+        setContentView(R.layout.activity_sport_info_timing)
 
         val MainButtonColor = getColor(R.color.Second)
         val MainTextColor = getColor(R.color.white)
