@@ -21,7 +21,7 @@ class FoodRecordAdapter(private val context: RecordFragment, private val recordL
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater = LayoutInflater.from(context)
+        val inflater = LayoutInflater.from(context.context)
         val view = inflater.inflate(R.layout.list_record_item, parent, false)
         val listName = view.findViewById<TextView>(R.id.record_name)
         val listCalorie = view.findViewById<TextView>(R.id.record_calorie)
