@@ -36,7 +36,7 @@ class SportInfoActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out)
         }
 
-        lastingBtn = findViewById(R.id.lastingBtn)
+        lastingBtn = findViewById(R.id.countBtn)
         lastingBtn.setOnClickListener {
             lastingBtn.setBackgroundColor(MainButtonColor)
             lastingBtn.setTextColor(MainTextColor)
