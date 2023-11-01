@@ -8,11 +8,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import com.example.bodyboost.R
+import com.example.bodyboost.RetrofitAPI
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class SearchFoodActivity : AppCompatActivity() {
 
     var optionId: Int = 0
+    var dietRecords: MutableList<RetrofitAPI.DietRecordData> = FoodListSingleton.dietRecords
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_food)
@@ -54,6 +57,7 @@ class SearchFoodActivity : AppCompatActivity() {
             startActivity(intent)
         }
         back.setOnClickListener {
+            dietRecords.clear()
             finish()
         }
     }

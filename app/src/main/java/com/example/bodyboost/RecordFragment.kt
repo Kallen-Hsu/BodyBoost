@@ -2,25 +2,46 @@ package com.example.bodyboost
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.bodyboost.Model.DietRecord
+import com.example.bodyboost.Model.Food
+import com.example.bodyboost.food.FoodInfoActivity
+import com.example.bodyboost.food.FoodListAdapter
+import com.example.bodyboost.food.FoodListSingleton
+import com.example.bodyboost.food.FoodRecordAdapter
 import com.example.bodyboost.food.SearchFoodActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 class RecordFragment : Fragment() {
+
+    val currentUser = UserSingleton.user
+    private var userId: Int = 0
+    private val retrofitAPI = RetrofitManager.getInstance()
+    private var progressDialog: ProgressDialog? = null
+
+    private var dietRecords: List<DietRecord>? = null
+    private lateinit var foodRecordAdapter: FoodRecordAdapter
 
     private lateinit var calendarButton: Button
     private lateinit var waterButton: ImageButton
@@ -29,8 +50,10 @@ class RecordFragment : Fragment() {
     private lateinit var dinnerButton: ImageButton
     private lateinit var otherFoodButton: ImageButton
     private lateinit var dateTextView: TextView
-    lateinit var dateText: String
-    lateinit var label: String
+    private lateinit var listViewBreakfast: ListView
+    private lateinit var listViewLunch: ListView
+    private lateinit var listViewDinner: ListView
+    private lateinit var listViewOther: ListView
 
     // food list
     private val foodRecordList = mutableListOf<String>()
@@ -60,29 +83,29 @@ class RecordFragment : Fragment() {
         dateTextView.text = dateFormat.format(Date())
         // date text
         val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
-        dateText = dateFormat2.format(Date())
+        FoodListSingleton.dateText = dateFormat2.format(Date())
         calendarButton.setOnClickListener {
             // select date
             showDatePicker(dateTextView)
         }
 
         breakfastButton.setOnClickListener {
-            label = "早餐"
+            FoodListSingleton.label = "早餐"
             replaceActivity()
         }
 
         lunchButton.setOnClickListener {
-            label = "午餐"
+            FoodListSingleton.label = "午餐"
             replaceActivity()
         }
 
         dinnerButton.setOnClickListener {
-            label = "晚餐"
+            FoodListSingleton.label = "晚餐"
             replaceActivity()
         }
 
         otherFoodButton.setOnClickListener {
-            label = "點心/其他"
+            FoodListSingleton.label = "點心/其他"
             replaceActivity()
         }
 
@@ -111,7 +134,7 @@ class RecordFragment : Fragment() {
                 textView.text = dateFormat.format(selectedCalendar.time)
                 // save date text
                 val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
-                dateText = dateFormat2.format(selectedCalendar.time)
+                FoodListSingleton.dateText = dateFormat2.format(selectedCalendar.time)
             },
             year,
             month,
@@ -145,10 +168,67 @@ class RecordFragment : Fragment() {
         dialog.show()
     }
 
+    private fun displayDietRecord(userID: Int) {
+        loadProgressDialog()
+        retrofitAPI.getDietRecord(userID.toString()).enqueue(object : Callback<List<DietRecord>> {
+            override fun onResponse(call: Call<List<DietRecord>>, response: Response<List<DietRecord>>) {
+                displayDietRecordResponse(response)
+            }
+            override fun onFailure(call: Call<List<DietRecord>>, t: Throwable) {
+                showToast("請求失敗：" + t.message)
+                t.printStackTrace()
+                dismissProgressDialog()
+                println(t.message)
+            }
+        })
+    }
+
+    private fun displayDietRecordResponse(response: Response<List<DietRecord>>) {
+        if (response.isSuccessful) {
+            val dietRecord: List<DietRecord>? = response.body()
+            if (dietRecord != null) {
+                when (response.code()) {
+                    200 -> {
+                        this.dietRecords = dietRecord
+                        foodRecordAdapter = FoodRecordAdapter(this, dietRecords!!)
+                        foodListView(foodRecordAdapter, listViewBreakfast)
+                    }
+                    404 -> showToast("404 錯誤")
+                    else -> showToast("伺服器錯誤，請稍後再試")
+                }
+            } else {
+                println(response.toString())
+            }
+        } else {
+            println(response.toString())
+        }
+        dismissProgressDialog()
+    }
+
+    private fun foodListView(foodRecordAdapter: FoodRecordAdapter, listView: ListView) {
+        listView.adapter = foodRecordAdapter
+    }
+
     private fun replaceActivity() {
         val intent = Intent(activity, SearchFoodActivity::class.java)
         startActivity(intent)
     }
 
+    private fun loadProgressDialog() {
+        progressDialog = ProgressDialog(this.context).apply {
+            setCancelable(false)
+            setMessage("Loading...")
+            setCanceledOnTouchOutside(false)
+            show()
+        }
+    }
+
+    private fun dismissProgressDialog() {
+        progressDialog?.dismiss()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()
+    }
 
 }

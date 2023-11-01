@@ -43,7 +43,22 @@ class FoodTypeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_type)
         val receivedIntent = intent
-        val spinnerItems = listOf("五穀澱粉類", "蛋肉魚類", "蔬菜類", "水果類", "乳品類", "豆類", "飲料類", "酒類", "油脂與堅果類", "零食點心", "速食類", "調味品", "菜餚類", "其他類別")
+        val spinnerItems = listOf(
+            "五穀澱粉類",
+            "蛋肉魚類",
+            "蔬菜類",
+            "水果類",
+            "乳品類",
+            "豆類",
+            "飲料類",
+            "酒類",
+            "油脂與堅果類",
+            "零食點心",
+            "速食類",
+            "調味品",
+            "菜餚類",
+            "其他類別"
+        )
         if (currentUser != null) {
             userId = currentUser.id
         }
@@ -75,26 +90,34 @@ class FoodTypeActivity : AppCompatActivity() {
             navigateActivity(FoodOptionsActivity())
         }
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 displayFood(position + 2)
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) { }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
     private fun displayFood(foodId: Int) {
         loadProgressDialog()
-        retrofitAPI.searchFoodById(foodId.toString(), userId.toString(), 1, 100).enqueue(object : Callback<List<Food>> {
-            override fun onResponse(call: Call<List<Food>>, response: Response<List<Food>>) {
-                displayFoodResponse(response)
-            }
-            override fun onFailure(call: Call<List<Food>>, t: Throwable) {
-                showToast("請求失敗：" + t.message)
-                t.printStackTrace()
-                dismissProgressDialog()
-                println(t.message)
-            }
-        })
+        retrofitAPI.searchFoodById(foodId.toString(), userId.toString(), 1, 100)
+            .enqueue(object : Callback<List<Food>> {
+                override fun onResponse(call: Call<List<Food>>, response: Response<List<Food>>) {
+                    displayFoodResponse(response)
+                }
+
+                override fun onFailure(call: Call<List<Food>>, t: Throwable) {
+                    showToast("請求失敗：" + t.message)
+                    t.printStackTrace()
+                    dismissProgressDialog()
+                    println(t.message)
+                }
+            })
     }
 
     @SuppressLint("SetTextI18n")
@@ -110,11 +133,13 @@ class FoodTypeActivity : AppCompatActivity() {
                         foodListAdapter = FoodListAdapter(this, foodList)
                         foodListView(foodListAdapter)
                     }
+
                     404 -> {
                         noFood.text = "Not Found"
                         noFood.setBackgroundColor(Color.WHITE)
                         //showToast("404 錯誤")
                     }
+
                     else -> {
                         noFood.text = "伺服器錯誤，請稍後再試"
                         noFood.setBackgroundColor(Color.WHITE)

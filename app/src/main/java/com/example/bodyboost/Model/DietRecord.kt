@@ -1,6 +1,7 @@
 package com.example.bodyboost.Model
 
 import com.google.type.DateTime
+import java.io.Serializable
 
 data class DietRecord(
     val id: Int,
@@ -19,4 +20,4 @@ data class DietRecord(
     val food_type_id: Int,
     val store_id: Int,
     val user_id: Int
-)
+) : Serializable

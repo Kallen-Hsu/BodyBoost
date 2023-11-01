@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.Model.Store
 import com.example.bodyboost.R
@@ -23,6 +24,7 @@ import java.lang.Exception
 class FoodInfoActivity : AppCompatActivity() {
 
     val currentUser = UserSingleton.user
+    var user_id: Int = 0
     private val retrofitAPI = RetrofitManager.getInstance()
     private lateinit var back: Button
     private lateinit var add: Button
@@ -35,16 +37,19 @@ class FoodInfoActivity : AppCompatActivity() {
     private lateinit var fat: TextView
     private lateinit var sodium: TextView
     private lateinit var intakeSize: EditText
-    private lateinit var dietRecords: List<RetrofitAPI.DietRecordData>
+    private var dietRecords: MutableList<RetrofitAPI.DietRecordData> = FoodListSingleton.dietRecords
     private lateinit var dietRecord: RetrofitAPI.DietRecordData
-    private val dateText = RecordFragment().dateText
-    private val label = RecordFragment().label
+    private val dateText = FoodListSingleton.dateText
+    private val label = FoodListSingleton.label
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_info)
 
         val selectedFood = intent.getSerializableExtra("food") as Food
+        if (currentUser != null) {
+            user_id = currentUser.id
+        }
 
         // findViewById
         back = findViewById(R.id.backButton)
@@ -63,8 +68,7 @@ class FoodInfoActivity : AppCompatActivity() {
 
         // setOnClickListener
         add.setOnClickListener {
-            addDietRecord(dateText, label, intakeSize.text.toString().toDouble(), selectedFood.name, )
-            Toast.makeText(this, selectedFood.name + " 新增成功", Toast.LENGTH_SHORT).show()
+            addDietRecord(dateText!!, label!!, intakeSize.text.toString().toDouble(), selectedFood, user_id)
             finish()
         }
         back.setOnClickListener { finish() }
@@ -176,25 +180,26 @@ class FoodInfoActivity : AppCompatActivity() {
         return (number.toDouble() * intakeSize.text.toString().toDouble()) / 100
     }
 
-    private fun addDietRecord(date: String, label: String, serving_amount: Number, name: String, calorie: Number, size: Number, unit: String, protein: Number, fat: Number, carb: Number, sodium: Number, modify: Boolean, food_type_id: Int, store_id: Int, user_id: Int) {
+    private fun addDietRecord(date: String, label: String, serving_amount: Number, food: Food, user_id: Int) {
         dietRecord = RetrofitAPI.DietRecordData(
             date,
             label,
             serving_amount,
-            name,
-            calorie,
-            size,
-            unit,
-            protein,
-            fat,
-            carb,
-            sodium,
-            modify,
-            food_type_id,
-            store_id,
+            food.name,
+            calorie.text.toString().toDouble(),
+            serving_amount,
+            unit.text.toString(),
+            protein.text.toString().toDouble(),
+            fat.text.toString().toDouble(),
+            carb.text.toString().toDouble(),
+            sodium.text.toString().toDouble(),
+            food.modify,
+            food.food_type_id,
+            food.store_id,
             user_id
         )
-
+        dietRecords.add(dietRecord)
+        Toast.makeText(this, food.name + " 新增成功", Toast.LENGTH_SHORT).show()
     }
 
     private fun isNumberNullOrZero(number: Number?) : Boolean {

@@ -9,8 +9,9 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.R
+import com.example.bodyboost.RetrofitAPI
 
-class FoodOptionAdapter(private val context: Context, private val foodList: List<DietRecord>) :
+class FoodOptionAdapter(private val context: Context, private val foodList: List<RetrofitAPI.DietRecordData>) :
     BaseAdapter() {
     override fun getCount(): Int = foodList.size
 

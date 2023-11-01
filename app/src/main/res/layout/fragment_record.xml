@@ -21,8 +21,8 @@
             android:background="@color/Yellow"
             android:gravity="center"
             android:textAlignment="center"
-            android:textSize="25sp"
             android:textColor="@color/TextColor"
+            android:textSize="25sp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -57,35 +57,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/linearLayout1">
 
-                <TextView
-                    android:id="@+id/breakfastLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.99"
-                    android:paddingStart="30dp"
-                    android:text="早餐"
-                    android:textColor="#333333"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/button_addBreakfast"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:layout_weight="0.01"
-                    android:background="@drawable/add_food"
-                    android:backgroundTint="#E07660"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-                    android:importantForAccessibility="no" />
+                    <TextView
+                        android:id="@+id/breakfastLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.99"
+                        android:paddingStart="30dp"
+                        android:text="早餐"
+                        android:textColor="#333333"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/button_addBreakfast"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.01"
+                        android:background="@drawable/add_food"
+                        android:backgroundTint="#E07660"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listView_breakfast"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="2sp"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp"
+                        android:scrollbars="none"
+                        tools:listitem="@layout/list_record_item" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -94,35 +120,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/linearLayout2">
 
-                <TextView
-                    android:id="@+id/lunchLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.99"
-                    android:paddingStart="30dp"
-                    android:text="午餐"
-                    android:textColor="#333333"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/button_addLunch"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:layout_weight="0.01"
-                    android:background="@drawable/add_food"
-                    android:backgroundTint="#E07660"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-                    android:importantForAccessibility="no" />
+                    <TextView
+                        android:id="@+id/lunchLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.99"
+                        android:paddingStart="30dp"
+                        android:text="午餐"
+                        android:textColor="#333333"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/button_addLunch"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.01"
+                        android:background="@drawable/add_food"
+                        android:backgroundTint="#E07660"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listView_lunch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="2sp"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp"
+                        android:scrollbars="none"
+                        tools:listitem="@layout/list_record_item" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -131,35 +183,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/linearLayout3">
 
-                <TextView
-                    android:id="@+id/dinnerLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.99"
-                    android:paddingStart="30dp"
-                    android:text="晚餐"
-                    android:textColor="#333333"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/button_addDinner"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:layout_weight="0.01"
-                    android:background="@drawable/add_food"
-                    android:backgroundTint="#E07660"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-                    android:importantForAccessibility="no" />
+                    <TextView
+                        android:id="@+id/dinnerLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.99"
+                        android:paddingStart="30dp"
+                        android:text="晚餐"
+                        android:textColor="#333333"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/button_addDinner"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.01"
+                        android:background="@drawable/add_food"
+                        android:backgroundTint="#E07660"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listView_dinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="2sp"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp"
+                        android:scrollbars="none"
+                        tools:listitem="@layout/list_record_item" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -168,35 +246,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/linearLayout4">
 
-                <TextView
-                    android:id="@+id/otherLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.99"
-                    android:paddingStart="30dp"
-                    android:text="點心/其他"
-                    android:textColor="#333333"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/button_addOther"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:layout_weight="0.01"
-                    android:background="@drawable/add_food"
-                    android:backgroundTint="#E07660"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-                    android:importantForAccessibility="no" />
+                    <TextView
+                        android:id="@+id/otherLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.99"
+                        android:paddingStart="30dp"
+                        android:text="點心/其他"
+                        android:textColor="#333333"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/button_addOther"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.01"
+                        android:background="@drawable/add_food"
+                        android:backgroundTint="#E07660"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listView_other"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="2sp"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp"
+                        android:scrollbars="none"
+                        tools:listitem="@layout/list_record_item" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -230,10 +334,10 @@
                     android:layout_weight="0.01"
                     android:background="@drawable/add_food"
                     android:backgroundTint="#E07660"
+                    android:importantForAccessibility="no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-                    android:importantForAccessibility="no" />
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
