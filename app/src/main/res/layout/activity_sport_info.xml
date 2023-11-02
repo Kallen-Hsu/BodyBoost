@@ -88,11 +88,12 @@
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/textView8">
 
+
             <Button
                 android:id="@+id/lastingBtn"
                 android:layout_width="70dp"
                 android:layout_height="40dp"
-                android:background="@drawable/button_sport_mode"
+                android:backgroundTint="@color/Second"
                 android:text="計時"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,12 +102,9 @@
                 android:id="@+id/timesBtn"
                 android:layout_width="70dp"
                 android:layout_height="40dp"
-                android:background="@drawable/button_sport_mode"
                 android:backgroundTint="@color/Yellow"
-                android:drawableTintMode="multiply"
                 android:text="計次"
-                android:textColor="@color/Second"
-                app:backgroundTint="@color/Yellow" />
+                android:textColor="@color/Second"/>
 
         </LinearLayout>
 
@@ -117,55 +115,72 @@
             android:orientation="vertical"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
-                <ImageView
-                    android:layout_width="250dp"
-                    android:layout_height="65dp"
-                    android:background="@drawable/rectangle"
-                    app:backgroundTint="@color/Yellow"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="65dp"
+                android:background="@drawable/sport_info_switch_background"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/sport_info_switch_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="start|center_vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="時間"
-                        android:layout_marginLeft="28dp"
-                        android:layout_marginRight="70dp"
-                        android:layout_gravity="start|center_vertical"/>
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginEnd="48dp"
+                    android:text="時間"
+                    android:textSize="16sp"/>
+
+                <LinearLayout
+                    android:id="@+id/sport_info_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <ImageButton
                         android:id="@+id/minusBtn"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:tint="@color/Second"
-                        android:src="@drawable/baseline_remove_24"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start|center_vertical"
                         android:background="@drawable/button_sport_mode"
-                        android:layout_gravity="start|center_vertical"/>
+                        android:src="@drawable/baseline_remove_24"
+                        app:tint="@color/Second" />
 
                     <TextView
                         android:id="@+id/setting_time"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="start|center_vertical"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:textSize="16sp"
+                        android:gravity="center"
                         android:background="@color/white" />
+
                     <ImageButton
                         android:id="@+id/plusBtn"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/baseline_add_24"
-                        app:tint="@color/Second"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start|center_vertical"
                         android:background="@drawable/button_sport_mode"
-                        android:layout_gravity="start|center_vertical"/>
-
+                        android:src="@drawable/baseline_add_24"
+                        app:tint="@color/Second" />
                 </LinearLayout>
-            </FrameLayout>
+
+                <EditText
+                    android:id="@+id/setting_counting"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    android:autofillHints="輸入次數"
+                    android:gravity="center"
+                    android:hint="輸入次數" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -189,6 +204,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/start_sport_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

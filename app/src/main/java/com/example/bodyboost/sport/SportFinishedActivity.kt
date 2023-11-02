@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bodyboost.MainActivity
 import com.example.bodyboost.R
 
 class SportFinishedActivity :AppCompatActivity(){
@@ -17,13 +18,16 @@ class SportFinishedActivity :AppCompatActivity(){
         }
     }
     private fun startSportActivity() {
-        val intent = Intent(this@SportFinishedActivity, SportFragment::class.java)
+        val intent = Intent()
+        intent.setClass(this@SportFinishedActivity, SportFragment::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out)
         back_to_mainBtn = findViewById(R.id.back_to_main)
         back_to_mainBtn.setOnClickListener {
-            val intent = Intent(this@SportFinishedActivity, SportFragment::class.java)
+            intent.setClass(this@SportFinishedActivity, MainActivity::class.java)
+//            intent.putExtra("index", 1)
             startActivity(intent)
+//            finish()
         }
     }
 }
