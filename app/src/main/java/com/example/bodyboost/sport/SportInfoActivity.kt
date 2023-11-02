@@ -13,7 +13,7 @@ import com.example.bodyboost.R
 class SportInfoActivity : AppCompatActivity() {
     private lateinit var animate: ImageView
     private lateinit var backBtn: Button
-    private lateinit var lastingBtn: Button
+    private lateinit var countBtn: Button
     private lateinit var setting_time: TextView
     private lateinit var plusBtn: ImageButton
     private lateinit var minusBtn: ImageButton
@@ -22,7 +22,6 @@ class SportInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sport_info_timing)
-
         val MainButtonColor = getColor(R.color.Second)
         val MainTextColor = getColor(R.color.white)
 
@@ -36,10 +35,10 @@ class SportInfoActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out)
         }
 
-        lastingBtn = findViewById(R.id.countBtn)
-        lastingBtn.setOnClickListener {
-            lastingBtn.setBackgroundColor(MainButtonColor)
-            lastingBtn.setTextColor(MainTextColor)
+        countBtn = findViewById(R.id.countBtn)
+        countBtn.setOnClickListener {
+            countBtn.setBackgroundColor(MainButtonColor)
+            countBtn.setTextColor(MainTextColor)
         }
 
         setting_time = findViewById(R.id.setting_time)
@@ -52,7 +51,6 @@ class SportInfoActivity : AppCompatActivity() {
         minusBtn.setOnClickListener {
             subtractTime(5)
         }
-
         updateTimerText()
     }
 
