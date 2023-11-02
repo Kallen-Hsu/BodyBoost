@@ -1,5 +1,6 @@
 package com.example.bodyboost.sport
 
+import android.content.Intent
 import android.media.MediaParser
 import android.media.MediaPlayer
 import android.net.Uri
@@ -8,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.bodyboost.MainActivity
 import com.example.bodyboost.R
 
 class SportItemAdapter(private var sportItemList: List<Sport>) :
@@ -52,7 +55,18 @@ class SportItemAdapter(private var sportItemList: List<Sport>) :
         }
 
         holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(sportItemList[position])
+//            Toast.makeText(holder.itemView.context, sportItemList[position].id.toString() + " success message", Toast.LENGTH_SHORT).show()
+            val intent = Intent(holder.itemView.context, SportInfoActivity::class.java)
+            intent.putExtra("id", sportItemList[position].id)
+            intent.putExtra("name", sportItemList[position].name)
+            intent.putExtra("description", sportItemList[position].description)
+            intent.putExtra("default_time", sportItemList[position].default_time)
+            intent.putExtra("interval", sportItemList[position].interval)
+            intent.putExtra("is_count", sportItemList[position].is_count)
+            intent.putExtra("met", sportItemList[position].met)
+            intent.putExtra("animation", sportItemList[position].animation.animation)
+            holder.itemView.context.startActivity(intent)
+//            onItemClickListener?.onItemClick(sportItemList[position])
         }
     }
 
