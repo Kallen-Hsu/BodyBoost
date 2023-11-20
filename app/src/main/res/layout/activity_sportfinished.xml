@@ -142,44 +142,43 @@
                             android:paddingTop="5px"
                             android:textColor="@color/Second"
                             android:textSize="18dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="秒"
-                            android:paddingLeft="20px"
-                            android:textColor="@color/Second"
-                            android:textSize="18dp"/>
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_horizontal"-->
+<!--                            android:text="秒"-->
+<!--                            android:paddingLeft="20px"-->
+<!--                            android:textColor="@color/Second"-->
+<!--                            android:textSize="18dp"/>-->
 
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="15dp">
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/white"
-                            android:src="@drawable/down"
-                            app:tint="@color/Second" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="完成時間：30 秒"
-                            android:textColor="@color/Second"
-                            android:textSize="18dp"/>
-                        <TextView
-                            android:id="@+id/finish_goal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text=""
-                            android:textColor="@color/Second"
-                            android:textSize="18dp"/>
+                        android:orientation="horizontal">
+<!--                        <ImageView-->
+<!--                            android:layout_width="25dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginRight="20dp"-->
+<!--                            android:background="@color/white"-->
+<!--                            android:src="@drawable/down"-->
+<!--                            app:tint="@color/Second" />-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_horizontal"-->
+<!--                            android:text="完成時間：30 秒"-->
+<!--                            android:textColor="@color/Second"-->
+<!--                            android:textSize="18dp"/>-->
+<!--                        <TextView-->
+<!--                            android:id="@+id/finish_goal"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_horizontal"-->
+<!--                            android:text=""-->
+<!--                            android:textColor="@color/Second"-->
+<!--                            android:textSize="18dp"/>-->
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
