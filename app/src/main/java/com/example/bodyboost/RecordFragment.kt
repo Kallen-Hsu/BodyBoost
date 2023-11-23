@@ -17,7 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bodyboost.Model.DietRecord
-import com.example.bodyboost.Food.FoodListSingleton
 import com.example.bodyboost.Food.FoodRecordAdapter
 import com.example.bodyboost.Food.SearchFoodActivity
 import retrofit2.Call

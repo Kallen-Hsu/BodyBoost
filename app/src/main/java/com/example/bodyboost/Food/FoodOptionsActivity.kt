@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import com.example.bodyboost.FoodListSingleton
 import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.R
 import com.example.bodyboost.RetrofitAPI

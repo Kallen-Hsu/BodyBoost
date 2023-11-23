@@ -18,6 +18,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import com.example.bodyboost.FoodListSingleton
+
 
 class FoodInfoActivity : AppCompatActivity() {
 
