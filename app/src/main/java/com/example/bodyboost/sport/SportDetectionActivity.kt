@@ -105,52 +105,60 @@ class SportDetectionActivity : AppCompatActivity() {
 
         if (landmarks != null) {
             val model = Squat.newInstance(this)
-            for (i in landmarks.indices) {
-                val landmarkList = landmarks[i]
-                println("PoseLandmarkerResult:")
-                println("Landmarks for Pose #$i:")
 
-                // Create a ByteBuffer for the model input
-                val inputBuffer = ByteBuffer.allocateDirect(1 * 132 * 4) // 1x132 float32 values (4 bytes each)
+            if(model != null){
+                // Create ByteBuffer for model input
+                val inputBuffer = ByteBuffer.allocateDirect(1 * 33 * 4 * 4) // 1x33x4 float32 values (4 bytes each)
 
-                for (j in landmarkList.indices) {
-                    val landmark = landmarkList[j]
+                for (i in landmarks.indices) {
+                    val landmarkList = landmarks[i]
+                    println("PoseLandmarkerResult:")
+                    println("Landmarks for Pose #$i:")
 
-                    // Convert Landmark data to ByteBuffer
-                    inputBuffer.putFloat(landmark.x().toFloat())
-                    inputBuffer.putFloat(landmark.y().toFloat())
-                    inputBuffer.putFloat(landmark.z().toFloat())
+                    for (j in landmarkList.indices) {
+                        val landmark = landmarkList[j]
+                        println(j)
+                        // Convert Landmark data to ByteBuffer
+                        inputBuffer.putFloat(landmark.x().toFloat())
+                        inputBuffer.putFloat(landmark.y().toFloat())
+                        inputBuffer.putFloat(landmark.z().toFloat())
 
-                    val visibility = landmark.visibility()
-                    if (visibility.isPresent) {
-                        inputBuffer.putFloat(visibility.get())
-                    } else {
-                        println("no visibility available")
+                        val visibility = landmark.visibility()
+                        if (visibility != null && visibility.isPresent) {
+                            inputBuffer.putFloat(visibility.get())
+                        } else {
+                            println("visibility unavailable")
+                        }
                     }
                 }
 
-                // Now, you can use this ByteBuffer as input to your model
                 inputBuffer.rewind()
-                val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 132), DataType.FLOAT32)
+                val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 33 * 4), DataType.FLOAT32)
                 inputFeature0.loadBuffer(inputBuffer)
 
                 // Runs model inference and gets result.
                 val outputs = model.process(inputFeature0)
                 val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
                 // Get the model's prediction (0 or 1)
                 val prediction = if (outputFeature0.getFloatValue(0) > outputFeature0.getFloatValue(1)) {
                     "down"
                 } else {
                     "up"
                 }
-                sportClass.text=prediction
+                sportClass.text = prediction
                 println("Model Prediction: $prediction")
-                // Process the model output as needed
+
+                // Releases model resources if no longer used.
+                model.close()
             }
-            // Releases model resources if no longer used.
-            model.close()
+            else{
+                println("Model is Null!")
+            }
+
         }
     }
+
     override fun onBackPressed() {
         finish()
     }

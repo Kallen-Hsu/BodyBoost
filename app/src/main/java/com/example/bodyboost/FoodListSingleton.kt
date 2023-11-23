@@ -1,4 +1,4 @@
-package com.example.bodyboost.Food
+package com.example.bodyboost
 
 import com.example.bodyboost.RetrofitAPI
 
