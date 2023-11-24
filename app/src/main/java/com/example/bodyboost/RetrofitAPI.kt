@@ -2,7 +2,6 @@ package com.example.bodyboost
 
 import android.view.animation.Animation
 import com.example.bodyboost.Model.Accuracy
-import com.example.bodyboost.Model.Achievement
 import com.example.bodyboost.Model.DailyBonus
 import com.example.bodyboost.Model.Member
 import com.example.bodyboost.Model.Profile
@@ -10,7 +9,6 @@ import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.Model.GoalHistory
-import com.example.bodyboost.Model.Setting
 import com.example.bodyboost.Model.Store
 import com.example.bodyboost.Model.UserAchievement
 import com.example.bodyboost.Model.Users
@@ -295,8 +293,8 @@ interface RetrofitAPI {
     ): Call<Void>
     // ------diet record--------------------------------------------------------------------------------
     @POST("api/dietrecord/add/")
-    fun addDietRecord( @Body addDietRecordData: DietRecordData ): Call<DietRecord>
-    data class DietRecordData(
+    fun addDietRecord( @Body addDietRecordData: DietRecordData3 ): Call<DietRecord>
+    data class DietRecordData3(
         val date: String,
         val label: String,
         val serving_amount: Number,
@@ -320,10 +318,10 @@ interface RetrofitAPI {
         val date: String,
         val label: String,
         val user_id: Int,
-        val items: MutableList<DietRecordData2>
+        val items: MutableList<DietRecordData>
     ) : Serializable
 
-    data class DietRecordData2(
+    data class DietRecordData(
         val serving_amount: Number,
         val name: String,
         val calorie: Number,
@@ -344,7 +342,7 @@ interface RetrofitAPI {
     @PUT("api/dietrecord/update/{id}")
     fun updateDietRecord(
         @Path("id") id:String,
-        @Body updateDietRecordData: DietRecordData
+        @Body updateDietRecordData: DietRecordData3
     ):Call<Void>
 
     @GET("api/dietrecord/{id}")
@@ -403,6 +401,9 @@ interface RetrofitAPI {
     data class StoreData(
         val name:String
     )
-
+// -------------------------------------------------------------------------------------------------
+// weight history
+    @GET("api/weighthistory/{id}")
+    fun getWeightHistoryByUserId( @Path("id") id: String ): Call<List<WeightHistory>>
 }
 

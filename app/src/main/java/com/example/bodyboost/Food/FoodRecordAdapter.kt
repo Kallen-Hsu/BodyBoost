@@ -1,4 +1,4 @@
-package com.example.bodyboost.Food
+package com.example.bodyboost
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
