@@ -166,7 +166,7 @@ interface RetrofitAPI {
         @Path("id") id: Int,
         @Body goal: Profile
     ): Call<Profile>
-    @PUT("api/profile/update/weight/{id}")
+    @PUT("api/profile/update/weight/{id}/")
     fun update_weight(
         @Path("id") id:Int,
         @Body updateWeight: Profile

@@ -164,17 +164,17 @@ class RecordFragment : Fragment() {
 
     private fun displayDietRecord(userID: Int) {
         loadProgressDialog()
-        retrofitAPI.getDietRecord(userID.toString()).enqueue(object : Callback<List<DietRecord>> {
-            override fun onResponse(call: Call<List<DietRecord>>, response: Response<List<DietRecord>>) {
-                displayDietRecordResponse(response)
-            }
-            override fun onFailure(call: Call<List<DietRecord>>, t: Throwable) {
-                showToast("請求失敗：" + t.message)
-                t.printStackTrace()
-                dismissProgressDialog()
-                println(t.message)
-            }
-        })
+//        retrofitAPI.getDietRecord(userID.toString()).enqueue(object : Callback<List<DietRecord>> {
+//            override fun onResponse(call: Call<List<DietRecord>>, response: Response<List<DietRecord>>) {
+//                displayDietRecordResponse(response)
+//            }
+//            override fun onFailure(call: Call<List<DietRecord>>, t: Throwable) {
+//                showToast("請求失敗：" + t.message)
+//                t.printStackTrace()
+//                dismissProgressDialog()
+//                println(t.message)
+//            }
+//        })
     }
 
     private fun displayDietRecordResponse(response: Response<List<DietRecord>>) {

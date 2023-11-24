@@ -20,6 +20,7 @@ class EditFragment : Fragment()  {
     private lateinit var changepwdButton:Button
     private lateinit var changebmiButton:Button
     private lateinit var changepicture:ImageButton
+    private lateinit var changeinfo : Button
     private val currentUser = UserSingleton.user
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +50,11 @@ class EditFragment : Fragment()  {
         changepicture = view.findViewById(R.id.picture)
         changepicture.setOnClickListener{
 
+        }
+        changeinfo = view.findViewById(R.id.info)
+        changeinfo.setOnClickListener {
+            val intent = Intent(requireActivity(), EditInfo::class.java)
+            startActivity(intent)
         }
         return view
     }
