@@ -1,4 +1,4 @@
-package com.example.bodyboost.food
+package com.example.bodyboost.Food
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -13,10 +13,6 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import com.example.bodyboost.Food.CustomFoodAddActivity
-import com.example.bodyboost.Food.FoodInfoActivity
-import com.example.bodyboost.Food.FoodListAdapter
-import com.example.bodyboost.Food.FoodOptionsActivity
 import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.R

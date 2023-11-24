@@ -1,6 +1,4 @@
-package com.example.bodyboost.Food
-
-import com.example.bodyboost.RetrofitAPI
+package com.example.bodyboost
 
 object FoodListSingleton {
     var dateText: String? = null

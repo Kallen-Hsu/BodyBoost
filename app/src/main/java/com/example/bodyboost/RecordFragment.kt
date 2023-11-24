@@ -16,9 +16,8 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.bodyboost.Model.DietRecord
-import com.example.bodyboost.Food.FoodListSingleton
 import com.example.bodyboost.Food.FoodRecordAdapter
+import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.Food.SearchFoodActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -128,7 +127,7 @@ class RecordFragment : Fragment() {
                 val dateFormat = SimpleDateFormat("yyyy年 MM月 dd日", Locale.getDefault())
                 textView.text = dateFormat.format(selectedCalendar.time)
                 // save date text
-                val dateFormat2 = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+                val dateFormat2 = SimpleDateFormat("yyyy-MM-dd ", Locale.getDefault())
                 FoodListSingleton.dateText = dateFormat2.format(selectedCalendar.time)
             },
             year,
