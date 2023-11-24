@@ -1,5 +1,6 @@
 package com.example.bodyboost.sport
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bodyboost.MainActivity
 import com.example.bodyboost.R
 import com.example.bodyboost.RetrofitManager
 import java.util.ArrayList
@@ -140,12 +142,14 @@ class SportFragment : Fragment() {
         sportItemAdapter = SportItemAdapter(sportList)
         sportItemListView.adapter = sportItemAdapter
 
-        sportItemAdapter.setOnItemClickListener(object : SportItemAdapter.OnItemClickListener {
-            override fun onItemClick(sport: Sport) {
-                // 當點擊 List 時，跳轉頁面
-                Toast.makeText(view.context, sport.id.toString() + " success message", Toast.LENGTH_SHORT).show()
-            }
-        })
+//        sportItemAdapter.setOnItemClickListener(object : SportItemAdapter.OnItemClickListener {
+//            override fun onItemClick(sport: Sport) {
+//                // 當點擊 List 時，跳轉頁面
+//                Toast.makeText(view.context, sport.id.toString() + " success message", Toast.LENGTH_SHORT).show()
+////                val intent = Intent(activity, SportFinishedActivity::class.java)
+////                startActivity(intent)
+//            }
+//        })
     }
 
     private fun addLastSportItemData() {
@@ -221,7 +225,6 @@ class SportFragment : Fragment() {
         call.enqueue(object: Callback<List<Sport>> {
             override fun onResponse(call: Call<List<Sport>>, response: Response<List<Sport>>) {
                 if (response.code() == 200) {
-                    Toast.makeText(view.context, "success message", Toast.LENGTH_SHORT).show()
                     sportItemList = response.body()!!
                     sportItemAdapter = SportItemAdapter(sportItemList)
                     sportItemListView.adapter = sportItemAdapter
