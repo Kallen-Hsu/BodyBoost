@@ -192,7 +192,7 @@ class FoodOptionsActivity : AppCompatActivity() {
     private fun showDateText(dateText: String): String {
         val data = dateText.split(' ')
 
-        if (data.size > 0) {
+        return if (data.isNotEmpty()) {
             val date = data[0]
             FoodListSingleton.dateText = date
             if (date.matches("\\d{4}-\\d{2}-\\d{2}".toRegex())) {
@@ -200,12 +200,12 @@ class FoodOptionsActivity : AppCompatActivity() {
                 val year = dateData[0]
                 val month = dateData[1]
                 val day = dateData[2]
-                return (year + "年" + month + "月" + day + "日")
+                (year + "年" + month + "月" + day + "日")
             } else {
-                return "2023年11月10日"
+                "2023年11月10日"
             }
         } else {
-            return "2023年10月11日"
+            "2023年10月11日"
         }
     }
 
