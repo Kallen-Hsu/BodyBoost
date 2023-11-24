@@ -14,7 +14,6 @@ import com.example.bodyboost.R
 import com.example.bodyboost.RetrofitAPI
 import com.example.bodyboost.RetrofitManager
 import com.example.bodyboost.UserSingleton
-import com.example.bodyboost.food.CustomFoodActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

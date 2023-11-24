@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.bodyboost.Model.WeightHistory
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
@@ -21,9 +22,16 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class ReportFragment : Fragment() {
+
+    val currentUser = UserSingleton.user
+    var userId: Int = 0
+    private val retrofitAPI = RetrofitManager.getInstance()
 
     private lateinit var weightChart: LineChart
     private lateinit var caloriesChart: LineChart
@@ -31,8 +39,9 @@ class ReportFragment : Fragment() {
     private lateinit var waterChart: BarChart
 
     // date and weight data list
-    private val weightRecordDate = mutableListOf<String>()
-    private val weightList = mutableListOf<Float>()
+    private var weightRecordDate = mutableListOf<String>()
+    private var weightList = mutableListOf<Float>()
+
     // weight chart use data
     private val weightChartMaxAndMinList = mutableListOf<Float>()
 
@@ -54,11 +63,16 @@ class ReportFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-    val rootView = inflater.inflate(R.layout.fragment_report, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_report, container, false)
+
+        if (currentUser != null) {
+            userId = currentUser.id
+        }
 
         // findViewById
         weightChart = rootView.findViewById(R.id.lineChart_weight)
@@ -68,6 +82,8 @@ class ReportFragment : Fragment() {
 
         // api write here
         // get dateList and weightList data: WeightHistory
+        getWeightHistory()
+        getWeightRecord()
 
         weightChartInit()
         caloriesChartInit()
@@ -93,7 +109,10 @@ class ReportFragment : Fragment() {
         }
         // updateData
         if (weightRecordDate.isNotEmpty()) {
-            setWeightChart(findWeightChartMaxValue(weightList.max()), findWeightChartMinValue(weightList.min()))
+            setWeightChart(
+                findWeightChartMaxValue(weightList.max()),
+                findWeightChartMinValue(weightList.min())
+            )
         }
     }
 
@@ -101,7 +120,7 @@ class ReportFragment : Fragment() {
         var max = 0f
         for (value in weightChartMaxAndMinList) {
             if (value > weightListMaxValue) {
-                max = value.toFloat()
+                max = value
                 break
             }
         }
@@ -112,7 +131,7 @@ class ReportFragment : Fragment() {
         var min = 0f
         for (value in weightChartMaxAndMinList.reversed()) {
             if (value < weightListMinValue) {
-                min = value.toFloat()
+                min = value
                 break
             }
         }
@@ -171,7 +190,10 @@ class ReportFragment : Fragment() {
         }
         // updateData
         if (caloriesRecordDate.isNotEmpty()) {
-            setCaloriesChart(findCaloriesChartMaxValue(caloriesList.max()), findCaloriesChartMinValue(caloriesList.min()))
+            setCaloriesChart(
+                findCaloriesChartMaxValue(caloriesList.max()),
+                findCaloriesChartMinValue(caloriesList.min())
+            )
         }
     }
 
@@ -179,7 +201,7 @@ class ReportFragment : Fragment() {
         var max = 0f
         for (value in caloriesChartMaxAndMinList) {
             if (value > caloriesListMaxValue) {
-                max = value.toFloat()
+                max = value
                 break
             }
         }
@@ -190,7 +212,7 @@ class ReportFragment : Fragment() {
         var min = 0f
         for (value in caloriesChartMaxAndMinList.reversed()) {
             if (value < caloriesListMinValue) {
-                min = value.toFloat()
+                min = value
                 break
             }
         }
@@ -267,7 +289,7 @@ class ReportFragment : Fragment() {
         val nList = mutableListOf<PieEntry>()
         var index = 0
         for (nutrient in nutrientList) {
-            var label = nutrientLabel[index]
+            val label = nutrientLabel[index]
             nList.add(PieEntry(nutrient, label))
             index += 1
         }
@@ -355,7 +377,7 @@ class ReportFragment : Fragment() {
         var max = 0f
         for (value in waterMaxAndMinList) {
             if (value > waterListMaxValue) {
-                max = value.toFloat()
+                max = value
                 break
             }
         }
@@ -366,10 +388,90 @@ class ReportFragment : Fragment() {
         var min = 0f
         for (value in waterMaxAndMinList) {
             if (value < waterListMinValue) {
-                min = value.toFloat()
+                min = value
                 break
             }
         }
         return min
+    }
+
+    private fun getWeightHistory() {
+        retrofitAPI.getWeightHistoryByUserId(userId.toString())
+            .enqueue(object : Callback<List<WeightHistory>> {
+                override fun onResponse(
+                    call: Call<List<WeightHistory>>,
+                    response: Response<List<WeightHistory>>
+                ) {
+                    getWeightHistoryResponse(response)
+                }
+
+                override fun onFailure(call: Call<List<WeightHistory>>, t: Throwable) {
+                    t.printStackTrace()
+                    println("體重請求失敗-1：" + t.message)
+                }
+            })
+    }
+
+    private fun getWeightHistoryResponse(response: Response<List<WeightHistory>>) {
+        if (response.isSuccessful) {
+            val weightRecord: List<WeightHistory>? = response.body()
+            if (weightRecord != null) {
+                when (response.code()) {
+                    200 -> {
+                        val size = weightRecord.size
+                        for (i in 0..<size) {
+                            weightList.add(i, weightRecord[i].weight.toFloat())
+                        }
+                    }
+                    404 -> println("體重請求失敗-2：$response")
+                    else -> println("伺服器錯誤")
+                }
+            } else {
+                println("體重請求失敗-3：$response")
+            }
+        } else {
+            println("體重請求失敗-4：$response")
+        }
+    }
+
+    private fun getWeightRecord() {
+        retrofitAPI.getWeightHistoryByUserId(userId.toString())
+            .enqueue(object : Callback<List<WeightHistory>> {
+                override fun onResponse(call: Call<List<WeightHistory>>, response: Response<List<WeightHistory>>) {
+                    getWeightRecordResponse(response)
+                }
+                override fun onFailure(call: Call<List<WeightHistory>>, t: Throwable) {
+                    t.printStackTrace()
+                    println("日期請求失敗-1：" + t.message)
+                }
+            })
+    }
+
+    private fun getWeightRecordResponse(response: Response<List<WeightHistory>>) {
+        if (response.isSuccessful) {
+            val weightRecord: List<WeightHistory>? = response.body()
+            if (weightRecord != null) {
+                when (response.code()) {
+                    200 -> {
+                        val size = weightRecord.size
+                        for (i in 0..< size) {
+                            val date = getDateText(weightRecord[i].date)
+                            weightRecordDate.add(i, date)
+                        }
+                        weightChartInit() // 重新整理圖表
+                    }
+                    404 -> println("日期請求失敗-2：$response")
+                    else -> println("伺服器錯誤")
+                }
+            } else {
+                println("日期請求失敗-3：$response")
+            }
+        } else {
+            println("日期請求失敗-4：$response")
+        }
+    }
+
+    private fun getDateText(dateText: String): String {
+        return dateText.substring(5, 10)
     }
 }

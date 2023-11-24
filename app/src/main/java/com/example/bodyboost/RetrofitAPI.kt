@@ -2,7 +2,6 @@ package com.example.bodyboost
 
 import android.view.animation.Animation
 import com.example.bodyboost.Model.Accuracy
-import com.example.bodyboost.Model.Achievement
 import com.example.bodyboost.Model.DailyBonus
 import com.example.bodyboost.Model.Member
 import com.example.bodyboost.Model.Profile
@@ -10,7 +9,6 @@ import com.example.bodyboost.Model.CustomFood
 import com.example.bodyboost.Model.DietRecord
 import com.example.bodyboost.Model.Food
 import com.example.bodyboost.Model.GoalHistory
-import com.example.bodyboost.Model.Setting
 import com.example.bodyboost.Model.Store
 import com.example.bodyboost.Model.UserAchievement
 import com.example.bodyboost.Model.Users
@@ -294,9 +292,31 @@ interface RetrofitAPI {
         @Body name: Store
     ): Call<Void>
     // ------diet record--------------------------------------------------------------------------------
-    @POST("api/dietrecord/add/")
-    fun addDietRecord( @Body addDietRecordData: DietRecordData ): Call<DietRecord>
+    @POST("api/dietrecord/add/many")
+    fun addManyDietRecord( @Body addDietREcordDataMany: DietRecordDataMany): Call<DietRecord>
+    data class DietRecordDataMany(
+        val date: String,
+        val label: String,
+        val user_id: Int,
+        val items: MutableList<DietRecordData>
+    ) : Serializable
+
     data class DietRecordData(
+        val serving_amount: Number,
+        val name: String,
+        val calorie: Number,
+        val size: Number,
+        val unit: String,
+        val protein: Number,
+        val fat: Number,
+        val carb: Number,
+        val sodium: Number,
+        val modify: Boolean,
+        val food_type_id: Int,
+        val store_id: Int
+    ) : Serializable
+
+    data class DietRecordData2(
         val date: String,
         val label: String,
         val serving_amount: Number,
@@ -314,41 +334,21 @@ interface RetrofitAPI {
         val user_id: Int
     ) : Serializable
 
-    @POST("api/dietrecord/add/many")
-    fun addManyDietRecord( @Body addDietREcordDataMany: DietRecordDataMany): Call<DietRecord>
-    data class DietRecordDataMany(
-        val date: String,
-        val label: String,
-        val user_id: Int,
-        val items: MutableList<DietRecordData2>
-    ) : Serializable
-
-    data class DietRecordData2(
-        val serving_amount: Number,
-        val name: String,
-        val calorie: Number,
-        val size: Number,
-        val unit: String,
-        val protein: Number,
-        val fat: Number,
-        val carb: Number,
-        val sodium: Number,
-        val modify: Boolean,
-        val food_type_id: Int,
-        val store_id: Int
-    ) : Serializable
-
     @DELETE("api/dietrecord/delete/{id}")
     fun deleteDietRecord( @Path("id") id:String ): Call<DietRecord>
 
     @PUT("api/dietrecord/update/{id}")
     fun updateDietRecord(
         @Path("id") id:String,
-        @Body updateDietRecordData: DietRecordData
+        @Body updateDietRecordData: DietRecordData2
     ):Call<Void>
 
     @GET("api/dietrecord/{id}")
     fun getDietRecord(
+        @Query("date") date:String,
+        @Query("date_sort") date_sort:String,
+        @Query("page") page:Int,
+        @Query("page_size") page_size: Int,
         @Path("id") id:String
     ): Call<List<DietRecord>>
 
@@ -403,6 +403,9 @@ interface RetrofitAPI {
     data class StoreData(
         val name:String
     )
-
+// -------------------------------------------------------------------------------------------------
+// weight history
+    @GET("api/weighthistory/{id}")
+    fun getWeightHistoryByUserId( @Path("id") id: String ): Call<List<WeightHistory>>
 }
 

@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import com.example.bodyboost.FoodListSingleton
 import com.example.bodyboost.R
 import com.example.bodyboost.RetrofitAPI
-import com.example.bodyboost.food.CustomFoodActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class SearchFoodActivity : AppCompatActivity() {
