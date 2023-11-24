@@ -99,7 +99,7 @@
             android:name=".DetailedActivity"
             android:exported="true" />
         <activity
-            android:name=".food.CustomFoodActivity"
+            android:name=".Food.CustomFoodActivity"
             android:exported="true" />
         <activity
             android:name=".Food.FoodOptionsActivity"
