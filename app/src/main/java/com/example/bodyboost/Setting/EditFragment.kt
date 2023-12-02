@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.exampl.ChangePassword
+
 import com.example.bodyboost.R
 import com.example.bodyboost.UserSingleton
 
@@ -19,12 +20,11 @@ class EditFragment : Fragment()  {
     private lateinit var mail:TextView
     private lateinit var changepwdButton:Button
     private lateinit var changebmiButton:Button
+    private lateinit var changeinfo:Button
     private lateinit var changepicture:ImageButton
-    private lateinit var changeinfo : Button
     private val currentUser = UserSingleton.user
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

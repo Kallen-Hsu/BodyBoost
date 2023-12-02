@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.bodyboost.Model.Profile
 import com.example.bodyboost.ProfileSingleton
 import com.example.bodyboost.R
-import com.example.bodyboost.Register.VerificationCode
 import com.example.bodyboost.RetrofitManager
 import com.example.bodyboost.UserSingleton
 import retrofit2.Call
@@ -113,6 +112,7 @@ class EditInfo : AppCompatActivity() {
                         400 -> showToast("錯誤")
                         404 -> {
                             showToast("找不到資料")
+                            showToast("請稍後再試")
                             // 可以執行額外的處理程序，例如提示重新驗證
                         }
                         else -> showToast("未知錯誤：${response.code()}")

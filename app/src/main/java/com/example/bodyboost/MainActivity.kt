@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.bodyboost.Register.Guide2
 import com.example.bodyboost.Setting.AboutUs
 import com.example.bodyboost.Setting.EditFragment
 import com.example.bodyboost.Setting.NotificationFragment
@@ -111,6 +112,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        if (fragmentIndex == 1) {
 //            replaceFragment(SportFragment(), "Sport")
 //        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.notification -> {
+                val notificationFragment = NotificationFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, notificationFragment)
+                    .commit()
+                return true
+            }
+            R.id.upgrade -> {
+                val upgradeFragment = UpgradeFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, upgradeFragment)
+                    .commit()
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
